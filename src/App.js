@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './Router';
-import PageHeader from './component/Header'
+import PageHeader from './component/LoginPageHeader'
 
 const App = () => {
   return (

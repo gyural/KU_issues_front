@@ -13,13 +13,6 @@ code {
     monospace;
 }
 
-span.headerComponents{
-  margin: 0;
-
-  font-size: 100px;
-}
-
-
 .loginForm{
   margin-top: 50px;
   text-align: center;
