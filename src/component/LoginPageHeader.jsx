@@ -15,7 +15,7 @@ const PageHeader = styled.header`
     box-shadow: 0 0 10px 0 #777777;
 `;
 const Logo = styled.span`
-    font-size: 25px;
+    font-size: 20px;
     position: absolute;
 `;
 
