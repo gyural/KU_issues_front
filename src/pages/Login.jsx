@@ -17,6 +17,30 @@ const Frame = styled.div`
   align-items: center;
   justify-content: center;
 `
+
+const IdLabel = styled.div`
+  margin: 0;
+  padding: 0;
+
+  font-size: 15px;
+  text-align: left;
+  position: relative;
+
+  > span.id{
+    position: relative;
+    top: 25px;
+    left: 3px;
+  }
+
+  > span.required{
+    position: relative;
+    top: 13px;
+    color: red;
+  }
+
+`
+
+
 const LoginForm = styled.form`
   width: 100%;
   height: 100%;
@@ -37,8 +61,7 @@ const Input = styled.input`
 const InputDiv = styled.div`
   width: 700px;
   height: 45px;
-
-  margin-top: 60px; 
+ 
   font-size: 15px;
   color: #000000;
   background-color: #ffffff;
@@ -98,16 +121,22 @@ function Login() {
       <div className='loginForm'>
         <div className='loginDiv'>로그인</div>
           <LoginForm onSubmit={handleSubmit} action='' method='POST'>
-              <InputDiv className='loginId'>
-                <Input
-                    type="text"
-                    maxLength="10"
-                    id="username"
-                    placeholder='학번을 입력하세요.'
-                    value={username}    
-                    onChange={(event) => setUsername(event.target.value)}
-                />
+            <IdLabel>
+              <span className='id'>학번</span><span className='required'>*</span>
+            </IdLabel>
+            <InputDiv className='loginId'>
+              <Input
+                  type="text"
+                  maxLength="10"
+                  id="username"
+                  placeholder='학번을 입력하세요.'
+                  value={username}    
+                  onChange={(event) => setUsername(event.target.value)}
+              />
               </InputDiv>
+            <IdLabel>
+              <span className='id'>비밀번호</span><span className='required'>*</span>
+            </IdLabel>
               <InputDiv className='loginPassword'>
               <Input
                   type="password"
