@@ -6,7 +6,7 @@ const Frame = styled.div`
   width: 50%;
   height: 60%;
 
-  margin: 7% auto;
+  margin: 5% auto;
 
   border: none;
   box-shadow: 0px 0px 1px #777777, -1px 1px 3px #777777;
@@ -146,7 +146,7 @@ function Login() {
                   onChange={(event) => setPassword(event.target.value)}
               />
               </InputDiv>
-              <LoginButton type="submit" className='submit'>로그인</LoginButton>
+              <Link to='/mainpage'><LoginButton type="submit" className='submit'>로그인</LoginButton></Link>
           </LoginForm>
           <div className='horiz'>
             <hr className='leftHr'/><span>or</span><hr className='rightHr'/>
