@@ -12,7 +12,7 @@ const PageHeader = styled.header`
     align-items: center;
     justify-content: center;
 
-    box-shadow: 0 0 10px 0 #777777;
+    box-shadow: 0 0 10px 0 #777777
 `;
 const Logo = styled.span`
     font-size: 20px;

@@ -1,21 +1,104 @@
 import React from 'react'
 import crimson from '../assets/crimson2positive.gif';
 import styled from 'styled-components'
+import { IoHomeOutline } from "react-icons/io5";
+import { IoMdCheckboxOutline } from "react-icons/io";
+import { TbReportAnalytics } from "react-icons/tb";
+import { FaRegUserCircle } from "react-icons/fa";
+import { MdLogout } from "react-icons/md";
 
+const MainSideBar = styled.div`
+    width: 15%;
+    height: 100%;
+    
+    text-align: center;
+    box-shadow: 1px 0px 1px #bbbbbb;
+    position: relative;
+    
+    & > hr{
+        margin-top: 0;
+        padding: 0;
+        width: 85%;   
+        border-width: 1px 0 0 0;
+        border-color: #eeeeee;
+    }
+    & > hr.bottonHr{
+        margin-top: 175%;
+    }
+`
 const SideBarHeader = styled.header`
-    width: 10px;
+    margin: 5px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    & > span, img{
+        display: inline-block;
+    }
+    & > img{
+        margin: 14px;
+        margin-left: 20px;
+    }
+    & > span{
+        font-size: 20px;
+        font-weight: 550;
+    }
+    
+`
+const SideBarButton = styled.button`
+    margin: 0 auto;
+    padding: 10px;
+    width: 80%;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    
+    cursor: pointer;
+    &:hover{
+        background-color: #000;
+        color: #fff;
+    }
+    & > span{
+        margin-left: 15px;
+        display: inline-block;
+
+        font-size: 15px;
+        font-weight: 550;
+    }
 `
 
 function SideBar() {
     return (
-        <SideBar>
-            <div>
-                <button></button>
-            </div>
+        <MainSideBar>
             <SideBarHeader>
-                <img src={crimson} alt=''></img>
+                <img src={crimson} alt='' style={{width: '30.05px', height: '38px'}}></img>
+                <span>Menu</span>
             </SideBarHeader>
-        </SideBar>
+            <hr />
+            <SideBarButton>
+                <IoHomeOutline size="18"/>
+                <span>메인 페이지</span>
+            </SideBarButton>
+            <SideBarButton>
+                <IoMdCheckboxOutline size="18"/>
+                <span>설문조사</span>
+            </SideBarButton>
+            <SideBarButton>
+                <TbReportAnalytics size="18"/>
+                <span>분석 및 보고</span>
+            </SideBarButton>
+            <SideBarButton>
+                <FaRegUserCircle size="18"/>
+                <span>내 정보 페이지</span>
+            </SideBarButton>
+            <hr className='bottonHr'/>
+            <SideBarButton>
+                <MdLogout size="18"/>
+                <span>로그아웃</span>
+            </SideBarButton>
+        </MainSideBar>
   )
 };
 

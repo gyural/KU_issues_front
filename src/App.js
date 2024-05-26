@@ -1,15 +1,14 @@
 import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './Router';
-import PageHeader from './component/LoginPageHeader'
-import MainPageHeader from './component/MainPageHeader'
-import SideBar from './component/SideBar';
+import MainSideBar from './component/SideBar';
+import MainPageLoginHeader from './component/UserHeader'
 
 const App = () => {
   return (
     <div>
-        <MainPageHeader />
-        <SideBar />
+        <MainPageLoginHeader />
+        <MainSideBar />
         <AppRouter />
     </div>
   );
