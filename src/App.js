@@ -1,17 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppRouter from './Router';
-import MainSideBar from './component/SideBar';
-import MainPageLoginHeader from './component/UserHeader'
 
 const App = () => {
   return (
-    <div>
-        <MainPageLoginHeader />
-        <MainSideBar />
+      <div>
         <AppRouter />
-    </div>
+      </div>
   );
-};
+}
 
 export default App;

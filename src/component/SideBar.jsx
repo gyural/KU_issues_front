@@ -6,6 +6,7 @@ import { IoMdCheckboxOutline } from "react-icons/io";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
+import { Link } from 'react-router-dom';
 
 const MainSideBar = styled.div`
     width: 15%;

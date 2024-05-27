@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import Header from '../component/LoginHeader';
 
 const Frame = styled.div`
   width: 50%;
@@ -105,55 +106,68 @@ const SignUpButton = styled.button`
 `
 
 
-function Login() {
-  const [username, setUsername] = useState('');
+function Login({ setIsLoggedIn }) {
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
 
-  // 폼 제출 핸들러
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Username:', username);
-    console.log('Password:', password);
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if(id === 'id' && password === 'password') {
+        setIsLoggedIn(true);
+    } else {
+        alert('로그인에 실패했습니다!');
+    }
   };
+  
+
+  // 폼 제출 핸들러
+  // const handleSubmit = (event) => {
+  //   event.preventDefault();
+  //   console.log('Username:', username);
+  //   console.log('Password:', password);
+  // };
 
   return (
-    <Frame>
-      <div className='loginForm'>
-        <div className='loginDiv'>로그인</div>
-          <LoginForm onSubmit={handleSubmit} action='' method='POST'>
-            <IdLabel>
-              <span className='id'>학번</span><span className='required'>*</span>
-            </IdLabel>
-            <InputDiv className='loginId'>
-              <Input
-                  type="text"
-                  maxLength="10"
-                  id="username"
-                  placeholder='학번을 입력하세요.'
-                  value={username}    
-                  onChange={(event) => setUsername(event.target.value)}
-              />
-              </InputDiv>
-            <IdLabel>
-              <span className='id'>비밀번호</span><span className='required'>*</span>
-            </IdLabel>
-              <InputDiv className='loginPassword'>
-              <Input
-                  type="password"
-                  id="password"
-                  placeholder='비밀번호를 입력하세요.'
-                  value={password}
-                  onChange={(event) => setPassword(event.target.value)}
-              />
-              </InputDiv>
-              <Link to='/mainpage'><LoginButton type="submit" className='submit'>로그인</LoginButton></Link>
-          </LoginForm>
-          <div className='horiz'>
-            <hr className='leftHr'/><span>or</span><hr className='rightHr'/>
-          </div>
-          <Link to='/signup'><SignUpButton>회원가입</SignUpButton></Link>
-      </div>
-    </Frame>
+    <div>
+      <Header />
+      <Frame>
+        <div className='loginForm'>
+          <div className='loginDiv'>로그인</div>
+            <LoginForm onSubmit={handleLogin} action='' method='POST'>
+              <IdLabel>
+                <span className='id'>학번</span><span className='required'>*</span>
+              </IdLabel>
+              <InputDiv className='loginId'>
+                <Input
+                    type="text"
+                    maxLength="10"
+                    id="username"
+                    placeholder='학번을 입력하세요.'
+                    value={id}    
+                    onChange={(event) => setId(event.target.value)}
+                />
+                </InputDiv>
+              <IdLabel>
+                <span className='id'>비밀번호</span><span className='required'>*</span>
+              </IdLabel>
+                <InputDiv className='loginPassword'>
+                <Input
+                    type="password"
+                    id="password"
+                    placeholder='비밀번호를 입력하세요.'
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}
+                />
+                </InputDiv>
+                <Link to='/mainpage'><LoginButton type="submit" className='submit'>로그인</LoginButton></Link>
+            </LoginForm>
+            <div className='horiz'>
+              <hr className='leftHr'/><span>or</span><hr className='rightHr'/>
+            </div>
+            <Link to='/signup'><SignUpButton>회원가입</SignUpButton></Link>
+        </div>
+      </Frame>
+    </div>
   );
 }
 

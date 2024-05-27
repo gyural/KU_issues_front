@@ -1,16 +1,21 @@
 import React from 'react'
 import styled from 'styled-components';
+import MainLoginHeader from '../component/UserHeader';
+import MainHeader from '../component/GuestHeader';
 
 const Div = styled.div`
   text-align: center;
 `
 
-function MainPage() {
+function MainPage({ isLoggedIn }) {
   return (
-    <Div>
-      메인페이지
-    </Div>
+    <div>
+      {isLoggedIn ? <MainLoginHeader /> : <MainHeader />}
+      <Div>
+        안녕
+      </Div>
+    </div>
   )
-}
+};
 
 export default MainPage;

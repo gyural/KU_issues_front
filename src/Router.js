@@ -9,9 +9,17 @@ const AppRouter = () => {
 	return(
 	  <Router>                                    
       <Routes>                                             
-        <Route path='/' element={<Login />} />
+        <Route path='/login' element={<Login />} />
         <Route path='/signup' element={<SignUp />} />
-        <Route path='/userprofile' element={<UserProfile />} />
+        <Route path='/' element={
+        <UserProfile 
+        id={2019380415}
+        name={'김선엽'}
+        nickname={'shipleaf'}
+        year={4}
+        password={1234}
+        />
+        } />
         <Route path='/mainpage' element={<MainPage />} />
       </Routes>
     </Router>

@@ -59,7 +59,6 @@ const HeaderLoginButton = styled.button`
 `
 function MainHeader() {
     return(
-        
         <MainPageHeader>
             <Signature>
                 <img src={crimson} alt="" style={{width: '65px', height: '82.21px'}}></img>
