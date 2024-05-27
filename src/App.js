@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
 import AppRouter from './Router';
 
 const App = () => {

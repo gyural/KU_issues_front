@@ -1,30 +1,44 @@
 import React from 'react'
-import MainLoginHeader from '../component/UserHeader';
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { IoIosArrowForward } from "react-icons/io";
+import axios from 'axios';
 
 
 const MyPageCard = styled.div`
   width: 50%;
   margin: 5% auto;
-  margin-bottom: 20px;
-
-
   border: none;
   box-shadow: 0px 0px 1px #777777, -1px 1px 3px #777777;
   border-radius: 10px;
   
   position: relative;
+  text-align: center;
 
 
   & > div.UserInformHeader{
-    margin: 0;
+    margin: 30px;
     padding: 15px 5px;
-    margin-top: 10px;
-    margin-left: 10px;
+    
 
     color: #bbbbbb;
     font-size: 25px;
     font-weight: 400;
+
+    
+
+    & > a{
+      text-decoration: none;
+      color: inherit;
+      font-size: 15px;
+
+      position: absolute;
+      right: 3%;
+      top: 3%;
+
+      display: flex;
+      align-items: center;
+    }
   }
 
   & > div.UserInform{
@@ -56,7 +70,7 @@ const MyPageCard = styled.div`
       display: inline-block;
       color: #A1A7B8;
       display: flex;
-      align-items: center; /* 수직 정렬 */
+      align-items: center;
     }
     & > span.UserInfo{
       width: 70%;
@@ -67,27 +81,53 @@ const MyPageCard = styled.div`
       font-weight: 400;
       display: inline-block;
       display: flex;
-      align-items: center; /* 수직 정렬 */
+      align-items: center;
     }
   }
-`
 
-function UserProfile({ id, name, nickname, year, password}) {
+  & > button{
+    width: 30%;
+    height: 50px;
+    margin: 10%;
+    font-size: 15px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+  }
+`
+const handleDeleteAccount = async () => {
+
+  try {
+    const userId = localStorage.getItem('userId');
+    const response = await axios.delete('/api/profile/:id', {
+      data: { userId: userId }
+    });
+    if (response.status === 200) {
+      alert('회원탈퇴가 성공적으로 처리되었습니다.');
+    }
+  } catch (error) {
+    console.error('회원탈퇴 중 오류 발생:', error);
+    alert('회원탈퇴 중 오류가 발생했습니다. 다시 시도해주세요.');
+  }
+};
+
+function UserProfile({ userid, username, nickname, year, password}) {
   return (
     <container>
-      <MainLoginHeader />
       <MyPageCard>
         <div className='UserInformHeader'>
           마이페이지
+          <Link>회원정보 수정<IoIosArrowForward /></Link>
         </div>
         <div className='UserInform'>
-          <p><span className='info'>학번</span><span className='UserInfo'>{id}</span></p>
+          <p><span className='info'>학번</span><span className='UserInfo'>{userid}</span></p>
+          <p><span className='info'>이름</span><span className='UserInfo'>{username}</span></p>
           <p><span className='info'>닉네임</span><span className='UserInfo'>{nickname}</span></p>
           <p><span className='info'>학년</span><span className='UserInfo'>{year}</span></p>
           <p><span className='info'>비밀번호</span><span className='UserInfo'>{password}</span></p>
         </div>
-        <div>회원정보 수정</div>
-        <div>회원 탈퇴</div>
+        <button className='DeletedButton' onClick={handleDeleteAccount}>회원탈퇴</button>
       </MyPageCard>
     </container>
   )

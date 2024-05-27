@@ -4,6 +4,13 @@ import styled from "styled-components";
 import { SlUser } from "react-icons/sl";
 import { VscTriangleDown } from "react-icons/vsc";
 import { Link } from "react-router-dom";
+import { IoHomeOutline } from "react-icons/io5";
+import { IoMdCheckboxOutline } from "react-icons/io";
+import { TbReportAnalytics } from "react-icons/tb";
+import { FaRegUserCircle } from "react-icons/fa";
+import { FiMenu } from "react-icons/fi";
+import { MdLogout } from "react-icons/md";
+
 
 const MainPageLoginHeader = styled.header`
     margin: 0;
@@ -128,6 +135,85 @@ const DropdownMenu = styled.div`
     }
 
 `;
+const SidebarToggleButton = styled.button`
+    position: absolute;
+    left: 20px;
+    bottom: 30%;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+
+    &:hover svg{
+        transform: scale(1.2);
+        transition: transform 0.2s ease-in-out;
+    }
+`
+const SideBarHeader = styled.header`
+    margin: 5px;
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    & > span, img{
+        display: inline-block;
+    }
+    & > img{
+        margin: 14px;
+        margin-left: 20px;
+    }
+    & > span{
+        font-size: 20px;
+        font-weight: 550;
+    }
+    
+`
+const SideBarButton = styled.button`
+    margin: 0 auto;
+    padding: 10px;
+    width: 80%;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    
+    cursor: pointer;
+    &:hover{
+        background-color: #000;
+        color: #fff;
+    }
+    & > span{
+        margin-left: 15px;
+        display: inline-block;
+
+        font-size: 15px;
+        font-weight: 550;
+    }
+`
+
+const MainSideBar = styled.div`
+    width: 15%;
+    height: 100%;
+    
+    text-align: center;
+    box-shadow: 1px 0px 1px #bbbbbb;
+    position: absolute;
+    
+    & > hr{
+        margin-top: 0;
+        padding: 0;
+        width: 85%;   
+        border-width: 1px 0 0 0;
+        border-color: #eeeeee;
+    }
+    & > hr.bottonHr{
+        margin-top: 175%;
+    }
+    & > a{
+        text-decoration: none;
+        color: inherit;
+    }
+`
 
 function MainLoginHeader() {
     const [showMenu, setShowMenu] = useState(false);
@@ -135,30 +221,78 @@ function MainLoginHeader() {
     const handleButtonClick = () => {
         setShowMenu(!showMenu);
     };
+    const [sidebarOpen, setSidebarOpen] = useState(false);
+
+    const toggleSidebar = () => {
+        setSidebarOpen(!sidebarOpen);
+    };
 
     return(
-        <MainPageLoginHeader>
-            <Signature>
-                <img src={crimson} alt="" style={{width: '65px', height: '82.21px'}}></img>
-                <HR />
-                <Logo>고려대 신문고</Logo>
-            </Signature>
-            <UserMenu>
-                <button className="NewPostButton">게시글 작성</button>
-                <UserButton onClick={handleButtonClick}>
-                    <div>
-                        <SlUser size="20" style={{width: '100%'}}/>
-                    </div>
-                    <VscTriangleDown />
-                </UserButton>
-                {showMenu && (
-                    <DropdownMenu>
-                        <Link to='/'><div>내 정보</div></Link>
-                        <Link><div>로그아웃</div></Link>
-                    </DropdownMenu>
-                )}
-            </UserMenu>
-        </MainPageLoginHeader>
+        <div>
+            <MainPageLoginHeader>
+                <SidebarToggleButton onClick={toggleSidebar}>
+                        <FiMenu size='30'/>
+                </SidebarToggleButton>
+                <Signature>
+                    <img src={crimson} alt="" style={{width: '65px', height: '82.21px'}}></img>
+                    <HR />
+                    <Logo>고려대 신문고</Logo>
+                </Signature>
+                <UserMenu>
+                    <button className="NewPostButton">게시글 작성</button>
+                    <UserButton onClick={handleButtonClick}>
+                        <div>
+                            <SlUser size="20" style={{width: '100%'}}/>
+                        </div>
+                        <VscTriangleDown />
+                    </UserButton>
+                    {showMenu && (
+                        <DropdownMenu>
+                            <Link><div>내 정보</div></Link>
+                            <Link><div>로그아웃</div></Link>
+                        </DropdownMenu>
+                    )}
+                    </UserMenu>
+            </MainPageLoginHeader>
+            {sidebarOpen && (
+                <MainSideBar>
+                    <SideBarHeader>
+                        <img src={crimson} alt='' style={{width: '30.05px', height: '38px'}}></img>
+                        <span>Menu</span>
+                    </SideBarHeader>
+                    <hr />
+                    <Link to='/mainpage'>
+                        <SideBarButton>
+                            <IoHomeOutline size="18"/>
+                            <span>메인 페이지</span>
+                        </SideBarButton>
+                    </Link>
+                    <Link to='/surveypage'>
+                        <SideBarButton>
+                            <IoMdCheckboxOutline size="18"/>
+                            <span>설문조사</span>
+                        </SideBarButton>
+                    </Link>
+                    <Link to='/reportpage'>
+                        <SideBarButton>
+                            <TbReportAnalytics size="18"/>
+                            <span>분석 및 보고</span>
+                        </SideBarButton>
+                    </Link>
+                    <Link to='/'>
+                        <SideBarButton>
+                            <FaRegUserCircle size="18"/>
+                            <span>내 정보 페이지</span>
+                        </SideBarButton>
+                    </Link>
+                    <hr className='bottonHr'/>
+                    <SideBarButton>
+                        <MdLogout size='18'/>
+                        <span>로그아웃</span>
+                    </SideBarButton>
+                </MainSideBar>
+            )}
+        </div>
     )
 };
 
