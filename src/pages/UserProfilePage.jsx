@@ -5,7 +5,7 @@ import MainHeader from '../component/GuestHeader';
 
 
 function UserProfilePage() {
-    const [isLoggedIn, setIsLoggedIn] = useState(true);
+    const [isLoggedIn] = useState(false);
 
     return(
         <div>
