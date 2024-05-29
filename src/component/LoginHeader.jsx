@@ -5,13 +5,11 @@ import styled from "styled-components";
 const PageHeader = styled.header`
     margin: 0;
     padding: 0;
-
     height: 96px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
+    background-color: ${(props) => props.bgColor || '#fff'};
     box-shadow: 0 0 10px 0 #777777
 `;
 const Logo = styled.span`

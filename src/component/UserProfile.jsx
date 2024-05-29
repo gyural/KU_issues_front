@@ -97,12 +97,9 @@ const MyPageCard = styled.div`
   }
 `
 const handleDeleteAccount = async () => {
-
   try {
     const userId = localStorage.getItem('userId');
-    const response = await axios.delete('/api/profile/:id', {
-      data: { userId: userId }
-    });
+    const response = await axios.delete(`/api/profile/${userId}`);
     if (response.status === 200) {
       alert('회원탈퇴가 성공적으로 처리되었습니다.');
     }
@@ -118,7 +115,7 @@ function UserProfile({ userid, username, nickname, year, password}) {
       <MyPageCard>
         <div className='UserInformHeader'>
           마이페이지
-          <Link>회원정보 수정<IoIosArrowForward /></Link>
+          <Link to='/profileedit'>회원정보 수정<IoIosArrowForward /></Link>
         </div>
         <div className='UserInform'>
           <p><span className='info'>학번</span><span className='UserInfo'>{userid}</span></p>

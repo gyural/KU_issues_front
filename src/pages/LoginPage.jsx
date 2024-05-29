@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from '../component/LoginHeader';
 
@@ -109,13 +109,35 @@ const SignUpButton = styled.button`
 function Login({ setIsLoggedIn }) {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if(id === 'id' && password === 'password') {
-        setIsLoggedIn(true);
-    } else {
-        alert('로그인에 실패했습니다!');
+
+    const credentials = {
+      id,
+      password
+    };
+
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      if (!response.ok) {
+        throw new Error('로그인에 실패했습니다!');
+      }
+
+      const result = await response.json();
+      console.log('로그인 성공:', result);
+      setIsLoggedIn(true);
+      navigate('/mainpage');
+    } catch (error) {
+      alert(error.message);
     }
   };
   
@@ -159,7 +181,7 @@ function Login({ setIsLoggedIn }) {
                     onChange={(event) => setPassword(event.target.value)}
                 />
                 </InputDiv>
-                <Link to='/mainpage'><LoginButton type="submit" className='submit'>로그인</LoginButton></Link>
+                <LoginButton type="submit" className='submit' onClick={handleLogin}>로그인</LoginButton>
             </LoginForm>
             <div className='horiz'>
               <hr className='leftHr'/><span>or</span><hr className='rightHr'/>
