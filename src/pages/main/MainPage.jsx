@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from 'styled-components';
 import CommentList from "../comment/CommentList";
-
+import DefaultImage from "../../assets/User.png"
 
 
 function MainPage(props) {
@@ -97,7 +97,7 @@ function MainPage(props) {
         </TitleContainer>
         <UserInfo>
           <UserImage 
-            src="https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
+            src={DefaultImage}
             alt="User" />
           <UserName>{props.username}</UserName>
         </UserInfo>
@@ -126,9 +126,10 @@ export default MainPage;
 // 게시글 컨테이너
 const PostContainer = styled.div`
   position: relative;
-  width: 900px;
+  width: 800px;
   height: auto;
   margin : 10px auto;
+  margin-left: 15%;
   margin-bottom: 30px;
   border: 1px solid #ccc;
   outline: none;
@@ -214,24 +215,25 @@ const ContentContainer = styled.div`
 
 // 내용
 const Text = styled.div`
+  width : 600px;
   font-size : 20px;
   line-height: 1.5;
   padding-right : 40px;
-  flex-grow: 1; 
 `;
 
 // 버튼 컨테이너
 const ButtonContainer = styled.div`
-  display: flex;
+  flex: 1;
   flex-direction: column;
   margin-top: 20px;
-  margin-left: 20px;
+  margin-right: 20px;
 `;
 
 // 찬성 반대 버튼
 const Button = styled.button`
-  padding: 10px 100px;
+  padding: 10px 80px;
   margin: 10px 0px;
+  margin-right: 20px;
   font-size: 16px;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -250,9 +252,10 @@ const Percent = styled.div`
 // 이미지 설정
 const Image = styled.div`
   padding: 0; 
-  width: 240px; 
+  width: 200px; 
   height: auto; 
-  margin: 10px 20px;
+  margin: 10px 0px;
+  margin-right: 20px;
   
   img {
     width: 100%;

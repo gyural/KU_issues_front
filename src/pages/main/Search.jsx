@@ -2,18 +2,22 @@ import React from 'react';
 import styled from 'styled-components';
 import SearchIcon from '../../assets/searchicon.png';
 
-const Search = (props) => {
+const Search = ({ searchTerm, onSearchChange }) => {
   return (
     <SearchContainer>
       <SearchInputContainer>
-        <SearchInput placeholder="게시글 검색" />
+        <SearchInput 
+          placeholder="게시글 검색" 
+          value={searchTerm} 
+          onChange={onSearchChange} 
+        />
         <SearchImage src={SearchIcon} />
       </SearchInputContainer>
       <SubtitleContainer>
-        <Subtitle >자유게시판</Subtitle>
-        <Subtitle >질문</Subtitle>
-        <Subtitle >불편사항</Subtitle>
-        <Subtitle >건의사항</Subtitle>
+      <Subtitle onClick={() => onSearchChange({ target: { value: '자유게시판' } })}>자유게시판</Subtitle>
+        <Subtitle onClick={() => onSearchChange({ target: { value: '질문게시판' } })}>질문게시판</Subtitle>
+        <Subtitle onClick={() => onSearchChange({ target: { value: '불편사항' } })}>불편사항</Subtitle>
+        <Subtitle onClick={() => onSearchChange({ target: { value: '건의사항' } })}>건의사항</Subtitle>
       </SubtitleContainer>
     </SearchContainer>
   );
@@ -28,15 +32,15 @@ const SearchContainer = styled.div`
   align-items: center;
   position: relative;
   height: 60px;
-  width: 900px;
+  width: 800px;
   margin: 40px auto; 
+  margin-left: 15%;
 `;
 
 // 검색창 컨테이너
 const SearchInputContainer = styled.div`
     display:flex;
     justify-content: center;
-    
     position: relative;
     width: 100%;
 `;
@@ -76,4 +80,4 @@ const Subtitle = styled.div`
   font-size: 16px;
   cursor: pointer;
   text-decoration: underline;
-`
+`;

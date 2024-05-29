@@ -157,6 +157,7 @@ const SubTitleSelect = styled.select`
 // 서브 타이틀
 const StyledSubtitle = styled.label`
   display: flex;
+  white-space: nowrap;
   margin-right: 50px;
   align-items: center;
   user-select: none;
