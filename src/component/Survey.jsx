@@ -19,6 +19,7 @@ const SurveyContainer = styled.div`
 function Survey() {
     const [numQuestions, setNumQuestions] = useState(1);
     const [surveyType, setSurveyType] = useState('');
+    const [surveyTitle, setSurveyTitle] = useState(''); // 설문 주제 상태 추가
     const [questions, setQuestions] = useState([{ text: '', options: [] }]);
 
     const handleCount = (increment) => {
@@ -64,7 +65,11 @@ function Survey() {
 
     const handleSubmit = async () => {
         try {
-            const response = await axios.post('/api/survey', { questions });
+            const surveyData = {
+                title: surveyTitle,
+                questions: questions
+            };
+            const response = await axios.post('/api/survey', surveyData);
             if (response.status === 200) {
                 alert('설문조사가 성공적으로 제출되었습니다.');
             }
@@ -77,7 +82,13 @@ function Survey() {
     return (
         <div>
             <SurveyHeader>
-                <input type='text' placeholder='설문 주제 입력...' />
+                <input 
+                    type='text' 
+                    placeholder='설문 주제 입력...' 
+                    id='asd' 
+                    value={surveyTitle} 
+                    onChange={(e) => setSurveyTitle(e.target.value)} // 설문 주제 상태 업데이트
+                />
                 <div>
                     <input 
                         type="radio" 
