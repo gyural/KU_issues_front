@@ -1,18 +1,16 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import crimson from '../assets/crimson2positive.gif';
 import styled from "styled-components";
-import { SlUser } from "react-icons/sl";
-import { VscTriangleDown } from "react-icons/vsc";
 import { Link } from "react-router-dom";
 import { IoHomeOutline } from "react-icons/io5";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaRegUserCircle } from "react-icons/fa";
+import { MdLogin } from "react-icons/md";
 import { FiMenu } from "react-icons/fi";
-import { MdLogout } from "react-icons/md";
 
 
-const MainPageLoginHeader = styled.header`
+const MainPageHeader = styled.header`
     margin: 0;
     padding: 0;
 
@@ -21,6 +19,19 @@ const MainPageLoginHeader = styled.header`
 
     position: relative;
 `;
+const SidebarToggleButton = styled.button`
+    position: absolute;
+    left: 20px;
+    bottom: 30%;
+    border: none;
+    background-color: inherit;
+    cursor: pointer;
+
+    &:hover svg{
+        transform: scale(1.2);
+        transition: transform 0.2s ease-in-out;
+    }
+`
 const Signature = styled.div`
     width: 20%;
     height: 100%;
@@ -48,149 +59,25 @@ const HR = styled.hr`
   margin-left: 7%;
 `
 
-const UserMenu = styled.div`
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+const HeaderLoginButton = styled.button`
+    width: 90px;
+    height: 47px;
 
+    background-color: black;
+    color: white;
+
+    border: none;
+    border-radius: 1.5rem;
+    
     position: absolute;
     right: 25%;
-
-    & > button.NewPostButton{
-        width: 109px;
-        height: 47px;
-
-        font-size: 13px;
-        font-weight: 550;
-        background-color: #ffffff;
-        border: 1px solid #000000;
-        border-radius: 1.5rem;
-
-        cursor: pointer;
-
-        &:hover{
-            color: white;
-            background-color: black;
-        }
-    }
-
-    
-`
-const UserButton = styled.button`
-    margin-left: 10px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border: none;
-
+    margin-top: 22px;
     cursor: pointer;
-    background-color: #ffffff;
 
     &:hover{
-        & > svg{
-            color: black;
-        }
-    }
-
-    & > div{
-        width: 47px;
-        height: 47px;
-        margin-left: 15px;
-
-        background-color: #dddddd;
-        border-radius: 50%;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    & > svg{
-        margin-left: 5px;
-        color: grey;
+        border: 5px solid black;
     }
 `
-const DropdownMenu = styled.div`
-    width: 150px;
-    position: absolute;
-    top: 110%;
-    right: 0;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    padding: 8px;
-    z-index: 1000;
-    
-    & > a{
-        text-decoration: none;
-        color: inherit;
-
-        font-size: 18px;
-    }
-
-    & > a > div{
-        margin: 0;
-        padding: 7px;
-    }
-
-`;
-const SidebarToggleButton = styled.button`
-    position: absolute;
-    left: 20px;
-    bottom: 30%;
-    border: none;
-    background-color: inherit;
-    cursor: pointer;
-
-    &:hover svg{
-        transform: scale(1.2);
-        transition: transform 0.2s ease-in-out;
-    }
-`
-const SideBarHeader = styled.header`
-    margin: 5px;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-
-    & > span, img{
-        display: inline-block;
-    }
-    & > img{
-        margin: 14px;
-        margin-left: 20px;
-    }
-    & > span{
-        font-size: 20px;
-        font-weight: 550;
-    }
-    
-`
-const SideBarButton = styled.button`
-    margin: 0 auto;
-    padding: 10px;
-    width: 80%;
-    background-color: #fff;
-    border: none;
-    border-radius: 10px;
-    display: flex;
-    
-    cursor: pointer;
-    &:hover{
-        background-color: #000;
-        color: #fff;
-    }
-    & > span{
-        margin-left: 15px;
-        display: inline-block;
-
-        font-size: 15px;
-        font-weight: 550;
-    }
-`
-
 const MainSideBar = styled.div`
     width: 15%;
     height: 100%;
@@ -214,13 +101,50 @@ const MainSideBar = styled.div`
         color: inherit;
     }
 `
+const SideBarHeader = styled.header`
+    margin: 5px;
+    width: 100%;
 
-function MainLoginHeader() {
-    const [showMenu, setShowMenu] = useState(false);
+    display: flex;
+    align-items: center;
 
-    const handleButtonClick = () => {
-        setShowMenu(!showMenu);
-    };
+    & > span, img{
+        display: inline-block;
+    }
+    & > img{
+        margin: 14px;
+        margin-left: 20px;
+    }
+    & > span{
+        font-size: 20px;
+        font-weight: 550;
+    }
+    
+`
+
+const SideBarButton = styled.button`
+    margin: 0 auto;
+    padding: 10px;
+    width: 80%;
+    background-color: #fff;
+    border: none;
+    border-radius: 10px;
+    display: flex;
+    
+    cursor: pointer;
+    &:hover{
+        background-color: #000;
+        color: #fff;
+    }
+    & > span{
+        margin-left: 15px;
+        display: inline-block;
+
+        font-size: 15px;
+        font-weight: 550;
+    }
+`
+function MainHeader() {
     const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const toggleSidebar = () => {
@@ -229,31 +153,21 @@ function MainLoginHeader() {
 
     return(
         <div>
-            <MainPageLoginHeader>
+            <MainPageHeader>
                 <SidebarToggleButton onClick={toggleSidebar}>
-                        <FiMenu size='30'/>
+                    <FiMenu size='30'/>
                 </SidebarToggleButton>
                 <Signature>
                     <img src={crimson} alt="" style={{width: '65px', height: '82.21px'}}></img>
                     <HR />
                     <Logo>고려대 신문고</Logo>
                 </Signature>
-                <UserMenu>
-                    <button className="NewPostButton">게시글 작성</button>
-                    <UserButton onClick={handleButtonClick}>
-                        <div>
-                            <SlUser size="20" style={{width: '100%'}}/>
-                        </div>
-                        <VscTriangleDown />
-                    </UserButton>
-                    {showMenu && (
-                        <DropdownMenu>
-                            <Link><div>내 정보</div></Link>
-                            <Link><div>로그아웃</div></Link>
-                        </DropdownMenu>
-                    )}
-                    </UserMenu>
-            </MainPageLoginHeader>
+                <Link to='/login'>
+                    <HeaderLoginButton>
+                        로그인
+                    </HeaderLoginButton>
+                </Link>
+            </MainPageHeader>
             {sidebarOpen && (
                 <MainSideBar>
                     <SideBarHeader>
@@ -286,14 +200,16 @@ function MainLoginHeader() {
                         </SideBarButton>
                     </Link>
                     <hr className='bottonHr'/>
-                    <SideBarButton>
-                        <MdLogout size='18'/>
-                        <span>로그아웃</span>
-                    </SideBarButton>
+                    <Link to='/login'>
+                        <SideBarButton>
+                            <MdLogin size='18'/>
+                            <span>로그인</span>
+                        </SideBarButton>
+                    </Link>
                 </MainSideBar>
             )}
         </div>
     )
 };
 
-export default MainLoginHeader;
+export default MainHeader;
