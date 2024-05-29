@@ -1,0 +1,149 @@
+import React, { useState } from "react";
+import styled, { keyframes } from 'styled-components';
+import Comment from "./Comment";
+import downArrow from '../../assets/down.png';
+
+const commentsData = {
+    1: [
+        { name: "정준용", comment: "안녕" },
+        { name: "시스템", comment: "응답없음." }
+    ],
+    2: [
+        { name: "집사", comment: "고양이" }
+    ],
+    3: [
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." },
+        { name: "시스템", comment: "응답없음." }
+    ]
+};
+
+function CommentList({ postId, onClose }) {
+    const [comments, setComments] = useState(commentsData[postId] || []);
+    const [newComment, setNewComment] = useState("");
+
+    const handleInputChange = (e) => {
+        setNewComment(e.target.value);
+    };
+
+    const handleFormSubmit = (e) => {
+        e.preventDefault();
+        if (newComment) {
+            setComments([...comments, { name: "익명", comment: newComment }]);
+            setNewComment("");
+        }
+    };
+
+    return (
+        <CommentsContainer>
+            <CloseButtonContainer onClick={onClose}>
+                <CloseButtonImg src={downArrow} alt="close" />
+            </CloseButtonContainer>
+            <CommentsContent>
+                {comments.map((comment, index) => (
+                    <Comment key={index} name={comment.name} comment={comment.comment} />
+                ))}
+            </CommentsContent>
+            <CommentForm onSubmit={handleFormSubmit}>
+                <CommentInput 
+                    type="text" 
+                    value={newComment}
+                    onChange={handleInputChange}
+                    placeholder="댓글"
+                />
+                <CommentSubmitButton >입력</CommentSubmitButton>
+            </CommentForm>
+        </CommentsContainer>
+    );
+}
+
+export default CommentList;
+
+// 댓글 창이 화면 밑에서 올라오는 애니메이션
+const slideUpFromBottom = keyframes`
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
+// 댓글 전체 컨테이너
+const CommentsContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width : 800px; 
+    margin: 0px auto;
+    margin-left: 28%;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    animation: ${slideUpFromBottom} 800ms ease-out;
+    position: fixed; 
+    bottom: 0; 
+    left: 0;
+    right: 0;
+    max-height: 60%; 
+    background: white;  // 배경색 설정(안하면 뒷 게시글이 보임)
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px 10px 0 0;
+    z-index: 1000; // 제일 상단에 표시
+    overflow: hidden;  
+`;
+
+// 댓글 내용 컨테이너
+const CommentsContent = styled.div`
+    overflow-y: auto; 
+    max-height: calc(100% - 120px);
+`;
+
+// 닫기 버튼 컨테이너
+const CloseButtonContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+`;
+
+// 닫기 버튼 이미지
+const CloseButtonImg = styled.img`
+    width: 20px;
+    height: 20px;
+`;
+
+// 댓글 입력
+const CommentForm = styled.form`
+    display: flex;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+`;
+
+// 댓글 입력
+const CommentInput = styled.input`
+    display : flex;
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+`;
+
+// 댓글 제출 버튼
+const CommentSubmitButton = styled.button`
+    padding: 10px 20px;
+    margin-left: 10px;
+    border: none;
+    background-color: #a52d2d;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+`;
