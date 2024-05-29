@@ -13,68 +13,50 @@ code {
     monospace;
 }
 
-.loginForm{
-  margin-top: 50px;
-  text-align: center;
+div.loginDiv{
+  font-size: 25px;
+  margin-top: 8%;
+  font-weight: 500;
 }
 
 .loginForm div {
   margin-bottom: 30px;
-
 }
 
-.loginId input{
-  width: 350px;
-  height: 50px;
-
-  font-size: 30px;
-  color: #000000;
-  background-color: #CDCDCD;
-
-  border: none;
-  text-align: center;
+input::placeholder{
+  color: #cddcdd;
 }
 
-.loginPassword input{
-  width: 350px;
-  height: 50px;
-
-  font-size: 30px;
-  color: #000000;
-  background-color: #CDCDCD;
-
-  border: none;
-  text-align: center;
-}
-
-button.submit{
-
-  width: 150px;
-  height: 35px;
-  
-  
-  background-color: #CDCDCD;
-  border: none;
-  cursor: pointer; 
-}
 
 button.submit:hover{
   border: 2px solid black;
 }
 
-div.signup{
-  margin-top: 30px;
+div.horiz{
+  margin: 0;
+  padding: 0;
+  
 }
 
-.signup button{
-  width: 150px;
-  height: 35px;
+.leftHr, .rightHr{
+  width: 300px;
+  
 
-  border: none;
-  background-color: #CDCDCD;
-  cursor: pointer;
+  display: inline-block;
 }
 
-.signup button:hover{
-  border: 2px solid black;
+.leftHr{
+  position: relative;
+  left: -35px;
 }
+
+.rightHr{
+  position: relative;
+  right: -35px;
+}
+
+div.horiz span{
+  font-size: 20px;
+  font-weight: 400;
+}
+

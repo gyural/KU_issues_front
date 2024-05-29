@@ -79,7 +79,8 @@ const LoginButton = styled.button`
   margin-bottom: 20px;
   background-color: #000000;
   color: white;
-  border: black;
+
+  border: none;
   font-size: 20px;
   cursor: pointer;
 
@@ -124,7 +125,7 @@ function Login() {
             <IdLabel>
               <span className='id'>학번</span><span className='required'>*</span>
             </IdLabel>
-            <InputDiv>
+            <InputDiv className='loginId'>
               <Input
                   type="text"
                   maxLength="10"
@@ -137,7 +138,7 @@ function Login() {
             <IdLabel>
               <span className='id'>비밀번호</span><span className='required'>*</span>
             </IdLabel>
-              <InputDiv >
+              <InputDiv className='loginPassword'>
               <Input
                   type="password"
                   id="password"
@@ -146,7 +147,7 @@ function Login() {
                   onChange={(event) => setPassword(event.target.value)}
               />
               </InputDiv>
-              <Link to='/'><LoginButton type="submit" >로그인</LoginButton></Link>
+              <Link to='/mainpage'><LoginButton type="submit" className='submit'>로그인</LoginButton></Link>
           </LoginForm>
           <div className='horiz'>
             <hr className='leftHr'/><span>or</span><hr className='rightHr'/>

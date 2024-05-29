@@ -7,6 +7,7 @@ import CommentList from './pages/comment/CommentList';
 import CreatePost from './pages/post/Post';
 
 
+
 const AppRouter = () => {
 	return(
 	  <Router>                                    
@@ -16,6 +17,7 @@ const AppRouter = () => {
         <Route path='/signup' element={<SignUp />} />        
         <Route path='/comment' element={<CommentList/>} />
         <Route path='/createPost' element={<CreatePost/>} />
+
       </Routes>
     </Router>
 	);
