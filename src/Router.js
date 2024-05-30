@@ -5,7 +5,7 @@ import SignUp from './pages/SignUpPage';
 import UserProfilePage from './pages/UserProfilePage';
 import MainPageList from './pages/main/MainPageList';
 import ProfileEditPage from './pages/ProfileEditPage';
-import Survey from './component/Survey';
+import Survey from './pages/SurveyPage';
 
 const AppRouter = () => {
 	return(
