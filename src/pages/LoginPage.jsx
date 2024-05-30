@@ -1,196 +1,105 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import Header from '../component/LoginHeader';
+import SignUpComponent from '../component/SignUpComponent';
+import SignInComponent from '../component/SignInComponent';
+
+const Background = styled.div`
+  background-image: url(${require('../assets/117966919_3233663960021962_562818201846139897_n.jpg')});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 
 const Frame = styled.div`
-  width: 50%;
-  height: 60%;
-
+  width: 30%;
   margin: 5% auto;
-
-  border: none;
-  box-shadow: 0px 0px 1px #777777, -1px 1px 3px #777777;
+  background-color: #3F4B6D;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   border-radius: 10px;
-  
-  text-align: center;
+  opacity: 0.85;
+`;
+
+const LoginHeader = styled.div`
+  width: 100%;
+  margin-top: 15%;
+  margin-bottom: 3%;
   display: flex;
   align-items: center;
   justify-content: center;
-`
 
-const IdLabel = styled.div`
-  margin: 0;
-  padding: 0;
-
-  font-size: 15px;
-  text-align: left;
-  position: relative;
-
-  > span.id{
-    position: relative;
-    top: 25px;
-    left: 3px;
+  & > div {
+    width: 85%;
+    display: flex;
   }
+`;
 
-  > span.required{
-    position: relative;
-    top: 13px;
-    color: red;
+const ButtonContainer = styled.div`
+
+  & > hr {
+    margin: 0;
+    padding: 0;
+    margin-left: 10%;
+    width: 80%;
+    background: #324F9F;
+    height: 2px;
+    border: 0;
+    display: ${props => (props.active ? 'block' : 'none')};
   }
+`;
 
-`
-
-
-const LoginForm = styled.form`
-  width: 100%;
-  height: 100%;
-  text-align: center;
-`
-const Input = styled.input`
-  width: 95%;
-  height: 87%;
-  margin-top: 2px;
-
-  text-align: left;
-  border: none;
-
-  &:focus {
-    outline: none;
-  };
-`
-const InputDiv = styled.div`
-  width: 700px;
-  height: 45px;
- 
-  font-size: 15px;
-  color: #000000;
-  background-color: #ffffff;
-  
-  border: none;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: -2px 5px 2px #bbbbbb, 1px -1px 1px #dddddd;
-`
-
-const LoginButton = styled.button`
-  width: 700px;
-  height: 55px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  background-color: #000000;
-  color: white;
-  border: none;
+const Button = styled.button`
   font-size: 20px;
+  font-weight: 600;
+  border: none;
+  background: none;
   cursor: pointer;
+  color: ${props => (props.active ? '#ffffff' : '#dddddd')};
 
-  &:focus {
-    outline: none;
+  &:hover {
+    color: #ffffff;
   }
-`
+`;
 
-const SignUpButton = styled.button`
-  width: 700px;
-  height: 55px;
-  margin-top: 20px;
-  margin-bottom: 12%;
-  background-color: #ffffff;
-  color: #000000;
-  border: 3px solid #defdef;
-  font-size: 20px;
-  cursor: pointer;
-
-  &:focus {
-    outline: none;
-  }
-`
-
-
-function Login({ setIsLoggedIn }) {
-  const [id, setId] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-
-    const credentials = {
-      id,
-      password
-    };
-
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(credentials),
-      });
-
-      if (!response.ok) {
-        throw new Error('로그인에 실패했습니다!');
-      }
-
-      const result = await response.json();
-      console.log('로그인 성공:', result);
-      setIsLoggedIn(true);
-      navigate('/mainpage');
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-  
-
-  // 폼 제출 핸들러
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   console.log('Username:', username);
-  //   console.log('Password:', password);
-  // };
+function LoginPage() {
+  const [activePage, setActivePage] = useState('signIn');
 
   return (
-    <div>
-      <Header />
+    <Background>
       <Frame>
-        <div className='loginForm'>
-          <div className='loginDiv'>로그인</div>
-            <LoginForm onSubmit={handleLogin} action='' method='POST'>
-              <IdLabel>
-                <span className='id'>학번</span><span className='required'>*</span>
-              </IdLabel>
-              <InputDiv className='loginId'>
-                <Input
-                    type="text"
-                    maxLength="10"
-                    id="username"
-                    placeholder='학번을 입력하세요.'
-                    value={id}    
-                    onChange={(event) => setId(event.target.value)}
-                />
-                </InputDiv>
-              <IdLabel>
-                <span className='id'>비밀번호</span><span className='required'>*</span>
-              </IdLabel>
-                <InputDiv className='loginPassword'>
-                <Input
-                    type="password"
-                    id="password"
-                    placeholder='비밀번호를 입력하세요.'
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                />
-                </InputDiv>
-                <LoginButton type="submit" className='submit' onClick={handleLogin}>로그인</LoginButton>
-            </LoginForm>
-            <div className='horiz'>
-              <hr className='leftHr'/><span>or</span><hr className='rightHr'/>
-            </div>
-            <Link to='/signup'><SignUpButton>회원가입</SignUpButton></Link>
-        </div>
+        <LoginHeader>
+          <div>
+            <ButtonContainer active={activePage === 'signIn'}>
+              <Button
+                active={activePage === 'signIn'}
+                onClick={() => setActivePage('signIn')}
+              >
+                SIGN IN
+              </Button>
+              <hr />
+            </ButtonContainer>
+            <ButtonContainer active={activePage === 'signUp'}>
+              <Button
+                active={activePage === 'signUp'}
+                onClick={() => setActivePage('signUp')}
+              >
+                SIGN UP
+              </Button>
+              <hr />
+            </ButtonContainer>
+          </div>
+        </LoginHeader>
+        {activePage === 'signIn' ? <SignInComponent /> : <SignUpComponent />}
       </Frame>
-    </div>
+    </Background>
   );
 }
 
-export default Login;
+export default LoginPage;
