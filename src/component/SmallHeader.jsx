@@ -1,7 +1,19 @@
 // SmallHeader.jsx
 import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 import { LiaSearchSolid } from "react-icons/lia";
+
+const slide = keyframes`
+  from {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+`;
+
 
 const Header = styled.div`
     width: 100%;
@@ -15,6 +27,7 @@ const Header = styled.div`
     z-index: 10000;
     position: sticky;
     top: 0;
+    animation: ${slide} 800ms ease-out;
 `;
 
 const Logo = styled.div`
@@ -60,7 +73,7 @@ const SearchBar = styled.div`
 `;
 
 const NavButtons = styled.div`
-    width: 10%;
+    width: 11%;
     height: 100%;
     display: flex;
     align-items: center;

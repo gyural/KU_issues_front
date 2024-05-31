@@ -83,10 +83,11 @@ function SignInComponent({ setIsLoggedIn }) {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     // 더미 데이터
+    /*
     const dummyId = '123';
     const dummyPassword = '123';
 
@@ -102,33 +103,34 @@ function SignInComponent({ setIsLoggedIn }) {
       alert('로그인에 실패했습니다!');
     }
   };
+    */
+    const credentials = {
+      id,
+      password
+    };
 
-    //   const credentials = {
-  //     id,
-  //     password
-  //   };
+    try {
+      const response = await fetch('http://localhost:8080/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(credentials),
+        credentials: 'include' // 쿠키를 포함하도록 설정
+      });
 
-  //   try {
-  //     const response = await fetch('/api/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //       },
-  //       body: JSON.stringify(credentials),
-  //     });
+      if (!response.ok) {
+        throw new Error('로그인에 실패했습니다!');
+      }
 
-  //     if (!response.ok) {
-  //       throw new Error('로그인에 실패했습니다!');
-  //     }
-
-  //     const result = await response.json();
-  //     console.log('로그인 성공:', result);
-  //     setIsLoggedIn(true);
-  //     navigate('/mainpage');
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
+      const result = await response.json();
+      console.log('로그인 성공:', result);
+      setIsLoggedIn(true);
+      navigate('/mainpage');
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
 
   // 폼 제출 핸들러
