@@ -1,31 +1,17 @@
-import axios from 'axios';
+import axiosInstance from './axiosInstance';
+import Cookies from 'js-cookie';
 
-// const API_URL = 'http://localhost:3000/survey';
 
-// export const test = async (credentials) => {
-//   const reqData = {
-//     "author": "gyu",
-//     "title": "test-survey",
-//     "description": "설문조사-설명"
-//   }
-//   const data1 =  JSON.stringify(reqData)
-//   try {
-//     const response = await axios.post(API_URL, data1);
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
-const API_URL = 'http://localhost:3000'; // 서버의 API URL
-
-export const getUserProfile = async (userId) => {
+// 사용자 프로필을 조회하는 함수
+export const getUserProfile = async () => {
     try {
-        const response = await axios.get(`${API_URL}/profile/${userId}`);
+        const response = await axiosInstance.get('/api/profile/123');
+        console.log(response);
         return response.data;
     } catch (error) {
-        throw new Error(error.response.data.message || '실패!');
+        console.error('Error fetching user profile:', error.response);
+        throw new Error(error.response?.data?.message || '실패!');
     }
 };
-
 
 export default getUserProfile;

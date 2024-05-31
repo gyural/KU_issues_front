@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import MainPage from "./MainPage";
 import Search from "./Search";
-import MainHeader from "../../component/GuestHeader";
+import MainPageHeader from "../../component/MainPageHeader";
 
 const posts = [
     {
@@ -56,7 +56,7 @@ const MainPageList = () => {
 
     return (
         <Container>
-            <MainHeader/>
+            <MainPageHeader/>
             <Post>
                 <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
                 {filteredPosts.map((post) => (
@@ -79,7 +79,8 @@ const MainPageList = () => {
 export default MainPageList;
 
 const Container = styled.div`
-    
+    width: 100%;
+    height: 100%;
 `;
 
 const Post = styled.div`
