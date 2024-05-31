@@ -98,11 +98,8 @@ const MyPageCard = styled.div`
 `
 const handleDeleteAccount = async () => {
   try {
-    const userId = '2019348001';
-    const response = await axios.delete(`http://localhost:8080/api/profile/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}` // 인증 토큰을 헤더에 추가
-      }
+    const response = await axios.delete('http://localhost:8080/api/profile', {
+      withCredentials: true,
     });
     if (response.status === 200) {
       alert('회원탈퇴가 성공적으로 처리되었습니다.');

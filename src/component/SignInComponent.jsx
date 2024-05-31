@@ -153,6 +153,7 @@ function SignInComponent({ setIsLoggedIn }) {
               maxLength="10"
               id="username"
               value={id}
+              autoComplete="new-password"
               onChange={(event) => setId(event.target.value)}
             />
           </InputDiv>
@@ -166,6 +167,7 @@ function SignInComponent({ setIsLoggedIn }) {
               type="password"
               id="password"
               value={password}
+              autoComplete="new-password"
               onChange={(event) => setPassword(event.target.value)}
             />
           </InputDiv>
