@@ -20,6 +20,7 @@ function UserProfilePage() {
 
     if (isLoggedIn) {
       fetchUserProfile();
+      console.log('로그인')
     }
   }, []);
 
