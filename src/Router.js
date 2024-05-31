@@ -7,6 +7,7 @@ import ProfileEditPage from './pages/ProfileEditPage';
 import Survey from './component/Survey';
 import Test from './pages/Test';
 
+
 const AppRouter = ({ setIsLoggedIn }) => {
   return (
     <Router>
