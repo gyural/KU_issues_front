@@ -2,29 +2,23 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
-
 const IdLabel = styled.div`
   margin: 0;
   padding: 0;
-
   font-size: 15px;
   text-align: left;
   position: relative;
-
-  > span.id{
+  > span.id {
     position: relative;
     top: 25px;
     left: 3px;
   }
-
-  > span.required{
+  > span.required {
     position: relative;
     top: 13px;
     color: red;
   }
-
-`
-
+`;
 
 const LoginForm = styled.form`
   width: 100%;
@@ -32,62 +26,57 @@ const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  & > div{
+  & > div {
     width: 80%;
     height: 10%;
     margin-bottom: 3%;
-    & > div{
-      & >div{
+    & > div {
+      & > div {
         font-size: 10px;
         font-weight: 800;
         color: #999999;
       }
     }
   }
-  & > button{
+  & > button {
     width: 80%;
     height: 45px;
     border: none;
-    background-color: #0D6EFD;
+    background-color: #0d6efd;
     color: #fff;
     border-radius: 1rem;
     margin-top: 30px;
     margin-bottom: 10%;
-    &:hover{
+    &:hover {
       cursor: pointer;
     }
   }
-`
+`;
+
 const Input = styled.input`
   width: 95%;
   height: 87%;
   margin-top: 2px;
-
   text-align: left;
   border: none;
-
   &:focus {
     outline: none;
-  };
-`
+  }
+`;
+
 const InputDiv = styled.div`
   width: 100%;
   height: 45px;
- 
   font-size: 15px;
   color: #000000;
   background-color: #bbbbbb;
-  
   border: none;
   border-radius: 1rem;
   text-align: center;
-  /* opacity: 0.7; */
-
-  & > input{
+  & > input {
     background-color: inherit;
-    /* opacity: inherit; */
   }
-`
+`;
 
 function SignInComponent({ setIsLoggedIn }) {
   const [id, setId] = useState('');
@@ -97,18 +86,37 @@ function SignInComponent({ setIsLoggedIn }) {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    // 더미 데이터
+    /*
+    const dummyId = '123';
+    const dummyPassword = '123';
+
+    console.log('입력된 ID:', id);
+    console.log('입력된 Password:', password);
+
+    if (id === dummyId && password === dummyPassword) {
+      console.log('로그인 성공');
+      setIsLoggedIn(true);
+      console.log('setIsLoggedIn 호출됨');
+      navigate('/mainpage');
+    } else {
+      alert('로그인에 실패했습니다!');
+    }
+  };
+    */
     const credentials = {
       id,
       password
     };
 
     try {
-      const response = await fetch('/api/login', {
+      const response = await fetch('http://localhost:8080/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(credentials),
+        credentials: 'include' // 쿠키를 포함하도록 설정
       });
 
       if (!response.ok) {
@@ -134,12 +142,12 @@ function SignInComponent({ setIsLoggedIn }) {
 
   return (
     <div>
-      <LoginForm onSubmit={handleLogin} action='' method='POST'>
-        <div id='logincomp'>
+      <LoginForm onSubmit={handleLogin}>
+        <div id="logincomp">
           <IdLabel>
-            <div className='id'>USERID</div>
+            <div className="id">USERID</div>
           </IdLabel>
-          <InputDiv className='loginId'>
+          <InputDiv className="loginId">
             <Input
               type="text"
               maxLength="10"
@@ -149,11 +157,11 @@ function SignInComponent({ setIsLoggedIn }) {
             />
           </InputDiv>
         </div>
-        <div id='passwordcomp'>
+        <div id="passwordcomp">
           <IdLabel>
-            <div className='id'>PASSWORD</div>
+            <div className="id">PASSWORD</div>
           </IdLabel>
-          <InputDiv className='loginPassword'>
+          <InputDiv className="loginPassword">
             <Input
               type="password"
               id="password"
@@ -162,9 +170,9 @@ function SignInComponent({ setIsLoggedIn }) {
             />
           </InputDiv>
         </div>
-        <button type='submit'>SIGN IN</button>
+        <button type="submit">SIGN IN</button>
       </LoginForm>
-      </div>
+    </div>
   );
 }
 

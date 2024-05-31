@@ -13,13 +13,12 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
-
+`;
 
 const Frame = styled.div`
   width: 30%;
   margin: 5% auto;
-  background-color: #3F4B6D;
+  background-color: #3f4b6d;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -42,16 +41,15 @@ const LoginHeader = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-
   & > hr {
     margin: 0;
     padding: 0;
     margin-left: 10%;
     width: 80%;
-    background: #324F9F;
+    background: #324f9f;
     height: 2px;
     border: 0;
-    display: ${props => (props.active ? 'block' : 'none')};
+    display: ${(props) => (props.active ? 'block' : 'none')};
   }
 `;
 
@@ -61,14 +59,14 @@ const Button = styled.button`
   border: none;
   background: none;
   cursor: pointer;
-  color: ${props => (props.active ? '#ffffff' : '#dddddd')};
+  color: ${(props) => (props.active ? '#ffffff' : '#dddddd')};
 
   &:hover {
     color: #ffffff;
   }
 `;
 
-function LoginPage() {
+function LoginPage({ setIsLoggedIn }) {
   const [activePage, setActivePage] = useState('signIn');
 
   return (
@@ -96,7 +94,11 @@ function LoginPage() {
             </ButtonContainer>
           </div>
         </LoginHeader>
-        {activePage === 'signIn' ? <SignInComponent /> : <SignUpComponent />}
+        {activePage === 'signIn' ? (
+          <SignInComponent setIsLoggedIn={setIsLoggedIn} />
+        ) : (
+          <SignUpComponent />
+        )}
       </Frame>
     </Background>
   );

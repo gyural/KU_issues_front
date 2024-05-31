@@ -116,10 +116,7 @@ function SignUpComponent() {
     // 폼 제출 핸들러
     const handleSubmit = async (event) => {
         event.preventDefault(); // 값이 제대로 제출되는지 확인
-        if (password !== passwordCheck) {
-            alert('비밀번호가 일치하지 않습니다.');
-            return;
-        }
+
         console.log('UserId:', id);
         console.log('Password:', password);
         console.log('PasswordCheck:', passwordCheck);
@@ -129,14 +126,15 @@ function SignUpComponent() {
 
         const userData = {
             id,
-            password,
             name,
             nickname,
-            grade
+            grade,
+            password,
+            passwordCheck
         };
 
         try {
-            const response = await fetch('/api/register', {
+            const response = await fetch('http://localhost:8080/api/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
