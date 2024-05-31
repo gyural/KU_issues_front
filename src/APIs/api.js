@@ -1,21 +1,17 @@
 import axiosInstance from './axiosInstance';
+import Cookies from 'js-cookie';
 
-const API_URL = 'http://localhost:8080'; // 서버의 API URL
 
-export const getUserProfile = async (userId) => {
-  try {
-    const response = await axiosInstance.get(`${API_URL}/api/profile/${userId}`, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('authToken')}`, // 인증 토큰을 헤더에 추가
-      },
-      withCredentials: true
-    });
-    
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching user profile:', error.response);
-    throw new Error(error.response?.data?.message || '실패!');
-  }
+// 사용자 프로필을 조회하는 함수
+export const getUserProfile = async () => {
+    try {
+        const response = await axiosInstance.get('/api/profile/123');
+        console.log(response);
+        return response.data;
+    } catch (error) {
+        console.error('Error fetching user profile:', error.response);
+        throw new Error(error.response?.data?.message || '실패!');
+    }
 };
 
 export default getUserProfile;
