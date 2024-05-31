@@ -1,25 +1,25 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Login from './pages/LoginPage';
-import SignUp from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
 import UserProfilePage from './pages/UserProfilePage';
 import MainPageList from './pages/main/MainPageList';
 import ProfileEditPage from './pages/ProfileEditPage';
 import Survey from './component/Survey';
+import Test from './pages/Test';
 
-const AppRouter = () => {
-	return(
-	  <Router>                                    
-      <Routes>                                             
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<SignUp />} />
-        <Route path='/mypage' element={<UserProfilePage/>} />
-        <Route path='/' element={<MainPageList />} />
+const AppRouter = ({ setIsLoggedIn }) => {
+  return (
+    <Router>
+      <Routes>
+        <Route path='/' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/profile' element={<UserProfilePage />} />
+        <Route path='/mainpage' element={<MainPageList />} />
         <Route path='/profileedit' element={<ProfileEditPage />} />
-        <Route path='/survey' element={<Survey />}/>
+        <Route path='/survey' element={<Survey />} />
+        <Route path='/test' element={<Test />} />
       </Routes>
     </Router>
-	);
+  );
 };
 
 export default AppRouter;
