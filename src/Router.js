@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/LoginPage';
 import SignUp from './pages/SignUpPage';
+import CreatePost from './pages/post/Post';
 import UserProfilePage from './pages/UserProfilePage';
 import MainPageList from './pages/main/MainPageList';
 import ProfileEditPage from './pages/ProfileEditPage';
@@ -15,6 +16,7 @@ const AppRouter = () => {
         <Route path='/signup' element={<SignUp />} />
         <Route path='/mypage' element={<UserProfilePage/>} />
         <Route path='/' element={<MainPageList />} />
+        <Route path='/createpost' element={<CreatePost/>} />
         <Route path='/profileedit' element={<ProfileEditPage />} />
         <Route path='/survey' element={<Survey />}/>
       </Routes>

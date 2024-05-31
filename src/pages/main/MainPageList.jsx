@@ -3,6 +3,8 @@ import styled from "styled-components";
 import MainPage from "./MainPage";
 import Search from "./Search";
 import MainHeader from "../../component/GuestHeader";
+import IntroImg from "../../assets/mainpageimg.jpg";
+
 
 const posts = [
     {
@@ -57,6 +59,7 @@ const MainPageList = () => {
     return (
         <Container>
             <MainHeader/>
+            <IntroContainer src={IntroImg}/>
             <Post>
                 <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
                 {filteredPosts.map((post) => (
@@ -82,9 +85,25 @@ const Container = styled.div`
     
 `;
 
+const IntroContainer = styled.img`
+  display: flex;
+  flex-direction: column;
+  width: 820px;
+  height: auto;
+  margin : 0px auto;
+  margin-left: 33%;
+  position: sticky;
+  background-color: white;
+  top: 0px; 
+  z-index: 1;
+`  
+
 const Post = styled.div`
-    margin-left: 15%; 
+    margin-left: 20%; 
     width: 85%; 
     padding: 20px;
+    padding-top: 0;
+    position: sticky;
+    top: 0px; 
     overflow-y: auto;
 `;

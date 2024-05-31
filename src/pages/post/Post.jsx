@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import img from "../../assets/createpostimg.png"
 
-function PostCreationForm() {
+function CreatePost() {
   const [tag, setTag] = useState('');
   const [subtitle, setSubtitle] = useState(-1);
   const [title, setTitle] = useState('');
@@ -44,6 +45,11 @@ function PostCreationForm() {
 
   return (
     <Frame>
+      <IntroContainer>
+        <CreateImg src={img} />
+        <Intro> 게시글 작성</Intro>
+      </IntroContainer>
+    <PostCreateFrame>
       <TopContainer>
         <TagSelectorContainer>
           <SubTitleSelect id="tagSelector" value={tag} onChange={handleTagChange}>
@@ -101,7 +107,7 @@ function PostCreationForm() {
         />
       </TitleContainer>
       <Textarea
-        placeholder="내용을 입력하세요."
+        placeholder="내용을 입력하세요..."
         value={content}
         onChange={handleContentChange}
       />
@@ -109,14 +115,45 @@ function PostCreationForm() {
         <SaveButton type="button" onClick={handleSave}>저장</SaveButton>
         <CancelButton type="button" onClick={handleCancel}>취소</CancelButton>
       </ButtonContainer>
+    </PostCreateFrame>
     </Frame>
   );
 }
 
-export default PostCreationForm;
+export default CreatePost;
 
 // 프레임
-const Frame = styled.form`
+const Frame = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  height: auto;
+  margin: 0px auto;
+`
+
+const IntroContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width : 100%;
+  height: 100px;
+  margin: 20px auto;
+  margin-top: 50px;
+`
+
+const CreateImg = styled.img`
+  width: 80px;
+  height: auto;
+`
+
+const Intro = styled.div`
+  margin-left: 10px;
+  font-size: 50px;
+  font-weight: bold;
+`
+
+const PostCreateFrame = styled.form`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -125,7 +162,7 @@ const Frame = styled.form`
   border-radius: 8px;
   box-shadow: 0px 0px 1px #777777, -1px 1px 3px #777777;
   width: 800px;
-  margin: 6% auto;
+  margin: 20px auto;
 `;
 
 // 서브 타이틀과 select 컨테이너
@@ -183,9 +220,16 @@ const TitleContainer = styled.div`
 const TitleInput = styled.input`
   flex: 1;
   padding: 10px;
+  padding-top: 15px;
+  font-size: 25px;
   border-radius: 4px;
   border: 1px solid #ccc;
+  
+  
   background-color: #ccc;
+  &::placeholder{
+    color: #474747;
+  }
   margin-right: 10px;
 `;
 
@@ -194,13 +238,16 @@ const Textarea = styled.textarea`
   width: 100%;
   height: 400px;
   padding: 10px;
+  font-size: 18px;
+  margin-left: 15px;
   border-radius: 4px;
-  border: 1px solid #ccc;
+  border: 1px solid #ffffff;
 `;
 
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
+
   width: 100%;
   margin-top: 20px;
 `;

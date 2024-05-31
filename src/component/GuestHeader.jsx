@@ -13,7 +13,7 @@ import { FiMenu } from "react-icons/fi";
 const MainPageHeader = styled.header`
     margin: 0;
     padding: 0;
-
+    z-index: 4;
     height: 96px;
     box-shadow: 0 0 10px 0 #777777;
 
