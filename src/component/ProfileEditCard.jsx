@@ -134,7 +134,7 @@ function ProfileEditCard({id, name, nickname, year, password}) {
 
     const handleSave = async () => {
         try {
-          const response = await axios.put(`/api/profile/${userData.userid}`, userData);
+          const response = await axios.put(`/api/profile/edit}`, userData);
           if (response.status === 200) {
             alert('회원정보가 성공적으로 수정되었습니다.');
             navigate('/profile');

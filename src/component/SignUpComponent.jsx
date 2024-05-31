@@ -169,6 +169,7 @@ function SignUpComponent() {
                             maxLength="10"
                             id="userid"
                             value={id}
+                            autoComplete="new-password"
                             onChange={(event) => setId(event.target.value)}
                         />
                     </InputDiv>
@@ -182,6 +183,7 @@ function SignUpComponent() {
                             type="password"
                             id="password"
                             value={password}
+                            autoComplete="new-password"
                             onChange={(event) => setPassword(event.target.value)}
                         />
                     </InputDiv>
@@ -196,6 +198,7 @@ function SignUpComponent() {
                             maxLength="10"
                             id="passwordCheck"
                             value={passwordCheck}
+                            autoComplete="new-password"
                             onChange={(event) => setPasswordCheck(event.target.value)}
                         />
                     </InputDiv>
@@ -210,6 +213,7 @@ function SignUpComponent() {
                             maxLength="10"
                             id="username"
                             value={name}
+                            autoComplete="new-password"
                             onChange={(event) => setName(event.target.value)}
                         />
                     </InputDiv>
@@ -224,6 +228,7 @@ function SignUpComponent() {
                             maxLength="10"
                             id="username"
                             value={nickname}
+                            autoComplete="new-password"
                             onChange={(event) => setNickname(event.target.value)}
                         />
                     </InputDiv>

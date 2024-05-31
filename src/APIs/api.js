@@ -1,11 +1,10 @@
 import axiosInstance from './axiosInstance';
-import Cookies from 'js-cookie';
 
 
 // 사용자 프로필을 조회하는 함수
 export const getUserProfile = async () => {
     try {
-        const response = await axiosInstance.get('/api/profile/123');
+        const response = await axiosInstance.get('/api/profile');
         console.log(response);
         return response.data;
     } catch (error) {

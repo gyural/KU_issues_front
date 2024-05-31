@@ -15,8 +15,8 @@ const AppRouter = ({ setIsLoggedIn }) => {
   return (
     <Router>
       <Routes>
-        <Route path='/login' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path='/' element={<UserProfilePage />} />
+        <Route path='/' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path='/myprofile' element={<UserProfilePage />} />
         <Route path='/mainpage' element={<MainPageList />} />
         <Route path='/profileedit' element={<ProfileEditPage />} />
         <Route path='/survey' element={<Survey />} />
