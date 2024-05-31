@@ -33,4 +33,32 @@ const createSurvey = (author, title, description, questionList) => {
     });
 };
 
-export {createSurvey}
+const getAllSurvey = async () =>{
+  return await axios.get(`${baseURL}/api/survey`).then(
+    res=>{
+      if(res.status===200){
+        return res.data
+      }
+      else{
+        return []
+      }
+    }
+  ).catch(err=>{
+    console.log(err)
+  }
+    
+  )
+}
+
+const getSurveyOne = async (surveyID)=>{
+  return await axios.get(`${baseURL}/api/survey/${surveyID}`).then(
+    res=>{
+      if(res.status === 200){return res.data}
+      else{ return []}
+    }
+  ).catch(err=>{
+    console.log(err)
+    return []
+  })
+}
+export {createSurvey, getAllSurvey, getSurveyOne}

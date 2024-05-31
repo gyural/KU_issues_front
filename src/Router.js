@@ -5,8 +5,8 @@ import SignUp from './pages/SignUpPage';
 import UserProfilePage from './pages/UserProfilePage';
 import MainPageList from './pages/main/MainPageList';
 import ProfileEditPage from './pages/ProfileEditPage';
-import Survey from './pages/SurveyPage';
-
+import Survey from './pages/survey/SurveyPage';
+import SurveyResPage from './pages/survey/surveyResPage';
 const AppRouter = () => {
 	return(
 	  <Router>                                    
@@ -17,6 +17,7 @@ const AppRouter = () => {
         <Route path='/' element={<MainPageList />} />
         <Route path='/profileedit' element={<ProfileEditPage />} />
         <Route path='/survey' element={<Survey />}/>
+        <Route path='/surveyRes' element={<SurveyResPage />}/>
       </Routes>
     </Router>
 	);

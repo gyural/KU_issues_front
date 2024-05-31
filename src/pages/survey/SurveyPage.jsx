@@ -1,6 +1,6 @@
 import React from 'react'
-import Survey from '../component/Survey'
-import MainHeader from "../component/GuestHeader";
+import Survey from '../../component/surveycreate'
+import MainHeader from "../../component/GuestHeader";
 
 function SurveyPage() {
   return (
