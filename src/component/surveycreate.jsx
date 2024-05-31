@@ -4,7 +4,7 @@ import axios from 'axios';
 import ObjectiveQuestion from './ObjectiveQuestion';
 import SubjectiveQuestion from './SubjectiveQuestion';
 import { Icon } from '@iconify/react';
-
+import { createSurvey } from '../APIs/surveyAPI';
 const Container = styled.div`
     width: 100%;
     padding: 44px 24px;
@@ -109,11 +109,7 @@ const Submit = styled.button`
 `
 
 function Survey() {
-    const [numQuestions, setNumQuestions] = useState(1);
-    const [surveyType, setSurveyType] = useState('');
-    const [surveyTitle, setSurveyTitle] = useState(''); // 설문 주제 상태 추가
-    const [questions, setQuestions] = useState([{ text: '', options: [] }]);
-
+    
     const handleCount = (increment) => {
         if (!surveyType) {
             return;
@@ -125,7 +121,7 @@ function Survey() {
             }
             const newQuestions = [...questions];
             if (increment > 0) {
-                newQuestions.push({ text: '', options: [] });
+                newQuestions.push({ question: '', answerList: [], questionType: surveyType});
             } else {
                 newQuestions.pop();
             }
@@ -133,44 +129,38 @@ function Survey() {
             return newCount;
         });
     };
-
+    
     const handleSurveyTypeChange = (event) => {
         setSurveyType(event.target.value);
         setNumQuestions(1);
-        setQuestions([{ text: '', options: [] }]);
+        setQuestions([{ question: '', answerList: [], questionType: surveyType }]);
     };
-
-    const handleQuestionChange = (index, text) => {
+    
+    const handleQuestionChange = (index, question) => {
         const newQuestions = [...questions];
-        newQuestions[index].text = text;
+        newQuestions[index].question = question;
         setQuestions(newQuestions);
     };
-
+    
     const handleOptionChange = (questionIndex, optionIndex, text) => {
         const newQuestions = [...questions];
-        if (!newQuestions[questionIndex].options) {
-            newQuestions[questionIndex].options = [];
+        if (!newQuestions[questionIndex].question) {
+            newQuestions[questionIndex].question = [];
         }
-        newQuestions[questionIndex].options[optionIndex] = text;
+        newQuestions[questionIndex].answerList[optionIndex] = text;
         setQuestions(newQuestions);
     };
-
     const handleSubmit = async () => {
-        try {
-            const surveyData = {
-                title: surveyTitle,
-                questions: questions
-            };
-            const response = await axios.post('/api/survey', surveyData);
-            if (response.status === 200) {
-                alert('설문조사가 성공적으로 제출되었습니다.');
-            }
-        } catch (error) {
-            console.error('설문조사 제출 중 오류 발생:', error);
-            alert('설문조사 제출 중 오류가 발생했습니다. 다시 시도해주세요.');
-        }
+        await createSurvey(tempUser, surveyTitle, surveyDescription, questions)
     };
 
+    const [numQuestions, setNumQuestions] = useState(1);
+    const [surveyType, setSurveyType] = useState('');
+    const [surveyTitle, setSurveyTitle] = useState(''); // 설문 주제 상태 추가
+    const [questions, setQuestions] = useState([{ question: '', answerList: [] , questionType: "1"}]);
+    const [surveyDescription, setSurveyDescription] = useState('ㅇ')
+    const tempUser = "2019270617"
+    
     return (
         <Container>
             <div style={{textAlign:'center', fontSize: '24px', fontWeight: '700', marginBottom: '14px'}}>설문 생성</div>
@@ -189,7 +179,7 @@ function Survey() {
                             <RadioInput
                             type="radio"
                             name="example"
-                            value="objective"
+                            value="1"
                             onChange={handleSurveyTypeChange}
                             />
                             <RadioLabel>객관식</RadioLabel>
@@ -199,7 +189,7 @@ function Survey() {
                             <RadioInput
                             type="radio"
                             name="example"
-                            value="subjective"
+                            value="2"
                             onChange={handleSurveyTypeChange}
                             />
                             <RadioLabel>주관식</RadioLabel>
@@ -222,25 +212,25 @@ function Survey() {
             <PostContainer>
                 <PostWrapper>
                     <SurveyContainer>
-                        {surveyType === 'objective' &&
+                        {surveyType === '1' &&
                             questions.map((question, index) => (
                                 <ObjectiveQuestion
                                     key={index}
                                     questionNumber={index + 1}
-                                    questionText={question.text}
-                                    options={question.options}
+                                    questionText={question.question}
+                                    options={question.answerList}
                                     onQuestionChange={handleQuestionChange}
                                     onOptionChange={handleOptionChange}
                                 />
                             ))
                         }
 
-                        {surveyType === 'subjective' &&
+                        {surveyType === '2' &&
                             questions.map((question, index) => (
                                 <SubjectiveQuestion
                                     key={index}
                                     questionNumber={index + 1}
-                                    questionText={question.text}
+                                    questionText={question.question}
                                     onQuestionChange={handleQuestionChange}
                                 />
                             ))
