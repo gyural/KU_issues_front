@@ -2,14 +2,17 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 
 function PostCreationForm() {
-  const [tag, setTag] = useState('');
-  const [subtitle, setSubtitle] = useState(-1);
   const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+  const [post_tag, setPostTag] = useState('');
+  const [vote_content, setVoteContent] = useState('');
+  const [body, setBody] = useState('');
+
+
+  const [subtitle, setSubtitle] = useState(-1);
   const [image, setImage] = useState(null);
 
-  const handleTagChange = (event) => {
-    setTag(event.target.value);
+  const handlePostTagChange = (event) => {
+    setPostTag(event.target.value);
   };
 
   const handlesubtitleChange = (event) => {
@@ -20,8 +23,8 @@ function PostCreationForm() {
     setTitle(event.target.value);
   };
 
-  const handleContentChange = (event) => {
-    setContent(event.target.value);
+  const handleBodyChange = (event) => {
+    setBody(event.target.value);
   };
 
   const handleImageChange = (event) => {
@@ -29,12 +32,7 @@ function PostCreationForm() {
   };
 
   const handleSave = () => {
-    console.log('Title:', title);
-    console.log('Content:', content);
-    console.log('Tag:', tag);
-    console.log('Subtitle:', subtitle);
-    console.log('Image:', image);
-    console.log('Saved');
+    
   };
 
   const handleCancel = () => {
@@ -42,11 +40,47 @@ function PostCreationForm() {
     console.log('Canceled');
   };
 
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // 값이 제대로 제출되는지 확인
+
+    console.log('Title:', title);
+    console.log('Body:', body);
+    console.log('PostTag:', post_tag);
+    console.log('VoteContent: ', vote_content);
+
+    const PostData = {
+        title,
+        post_tag,
+        vote_content,
+        body
+};
+
+    try {
+        const response = await fetch('http://localhost:8080/api/posts/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(PostData),
+        });
+
+        if (!response.ok) {
+            alert('글 작성 성공.')
+            throw new Error('글 작성 실패.');
+        }
+        const result = await response.json();
+        console.log('글 작성 성공:', result);
+    } catch (error) {
+        console.error('에러 발생:', error);
+    }
+};
+
+
   return (
-    <Frame>
+    <Frame onSubmit={handleSubmit} action ='' method='POST'>
       <TopContainer>
-        <TagSelectorContainer>
-          <SubTitleSelect id="tagSelector" value={tag} onChange={handleTagChange}>
+        <TagSelectorContainer >
+          <SubTitleSelect id="tagSelector" value={post_tag} onChange={handlePostTagChange}>
             <option value="">게시글 태그 선택</option>
             <option value="자유게시판">자유게시판</option>
             <option value="질문게시판">질문게시판</option>
@@ -102,11 +136,11 @@ function PostCreationForm() {
       </TitleContainer>
       <Textarea
         placeholder="내용을 입력하세요."
-        value={content}
-        onChange={handleContentChange}
+        value={body}
+        onChange={handleBodyChange}
       />
       <ButtonContainer>
-        <SaveButton type="button" onClick={handleSave}>저장</SaveButton>
+        <SaveButton type="button" onClick={handleSubmit}>저장</SaveButton>
         <CancelButton type="button" onClick={handleCancel}>취소</CancelButton>
       </ButtonContainer>
     </Frame>
