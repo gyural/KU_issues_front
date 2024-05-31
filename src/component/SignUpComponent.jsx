@@ -138,6 +138,7 @@ function SignUpComponent() {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    withCredentials: true,
                 },
                 body: JSON.stringify(userData),
             });
@@ -148,8 +149,10 @@ function SignUpComponent() {
             }
             const result = await response.json();
             console.log('회원가입 성공:', result);
+            alert('회원가입에 성공했습니다.')
         } catch (error) {
             console.error('에러 발생:', error);
+            alert("회원가입에 실패했습니다.")
         }
     };
 
