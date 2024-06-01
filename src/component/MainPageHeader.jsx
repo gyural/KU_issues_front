@@ -1,8 +1,8 @@
-// MainPageHeader.jsx
 import React from 'react';
 import styled from 'styled-components';
 import { RiSoundModuleLine } from "react-icons/ri";
 import { LiaSearchSolid } from "react-icons/lia";
+import { Link } from 'react-router-dom';
 
 const Header = styled.div`
     width: 100%;
@@ -96,7 +96,7 @@ const NavButtons = styled.div`
     }
 `;
 
-function MainPageHeader({ onSearchClick }) {
+function MainPageHeader({ searchTerm, onSearchChange }) {
     return (
         <Header>
             <Logo>
@@ -110,7 +110,8 @@ function MainPageHeader({ onSearchClick }) {
                     <input
                         type='text'
                         placeholder='Search'
-                        onClick={onSearchClick}
+                        value={searchTerm}
+                        onChange={onSearchChange}
                     />
                     <button id='search'>
                         <LiaSearchSolid size={23}/>

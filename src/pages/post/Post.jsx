@@ -8,9 +8,8 @@ function CreatePost() {
   const [vote_content, setVoteContent] = useState('');
   const [body, setBody] = useState('');
 
-
   const [subtitle, setSubtitle] = useState(-1);
-  const [image, setImage] = useState(null);
+  //const [image, setImage] = useState(null);
 
   const handlePostTagChange = (event) => {
     setPostTag(event.target.value);
@@ -28,15 +27,23 @@ function CreatePost() {
     setBody(event.target.value);
   };
 
-  const handleImageChange = (event) => {
-    setImage(event.target.files[0]);
+  const handleVoteContentChange = (event) => {
+    const inputValue = event.target.value;
+    if (inputValue.length <= 10) {
+      setVoteContent(inputValue);
+    }
   };
 
-  const handleSave =() =>{
-    handleSubmit();
-  }
+  // const handleImageChange = (event) => {
+  //   setImage(event.target.files[0]);
+  // };
+
+  // const handleSave = () => {
+  //   handleSubmit();
+  // }
+
   const handleCancel = () => {
-    window.location.href = '/';
+    window.location.href = '/mainpage';
     console.log('Canceled');
   };
 
@@ -49,107 +56,101 @@ function CreatePost() {
     console.log('VoteContent: ', vote_content);
 
     const PostData = {
-        title,
-        post_tag,
-        vote_content,
-        body
-};
+      title,
+      post_tag,
+      vote_content,
+      body
+    };
 
     try {
-        const response = await fetch('http://localhost:8080/api/posts/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(PostData),
-        });
+      const response = await fetch('http://localhost:8080/api/posts/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(PostData),
+      });
 
-        if (!response.ok) {
-            alert('글 작성 성공.')
-            throw new Error('글 작성 실패.');
-        }
-        const result = await response.json();
-        console.log('글 작성 성공:', result);
+      if (!response.ok) {
+        alert('글 작성 성공.')
+        throw new Error('글 작성 실패.');
+      }
+      const result = await response.json();
+      console.log('글 작성 성공:', result);
     } catch (error) {
-        console.error('에러 발생:', error);
+      console.error('에러 발생:', error);
     }
-    window.location.href = '/';
-};
-
+    //window.location.href = '/mainpage';
+  };
 
   return (
-    <Frame onSubmit={handleSubmit} action ='' method='POST'>
+    <Frame onSubmit={handleSubmit} action='' method='POST'>
       <IntroContainer>
         <CreateImg src={img} />
         <Intro> 게시글 작성</Intro>
       </IntroContainer>
-    <PostCreateFrame>
-      <TopContainer>
-        <TagSelectorContainer >
-          <SubTitleSelect id="tagSelector" value={post_tag} onChange={handlePostTagChange}>
-            <option value="">게시글 태그 선택</option>
-            <option value="자유게시판">자유게시판</option>
-            <option value="질문게시판">질문게시판</option>
-            <option value="건의사항">건의사항</option>
-            <option value="불편사항">불편사항</option>
-          </SubTitleSelect>
-        </TagSelectorContainer>
-        <CheckboxContainer>
-          <StyledSubtitle>
-            <StyledInput
-              type="radio"
-              name="subtitle"
-              value={0}
-              onChange={handlesubtitleChange}
-              checked={subtitle === 0}
-            />
-            <StyledP>없음</StyledP>
-          </StyledSubtitle>
-          <StyledSubtitle>
-            <StyledInput
-              type="radio"
-              name="subtitle"
-              value={1}
-              onChange={handlesubtitleChange}
-              checked={subtitle === 1}
-            />
-            <StyledP>투표</StyledP>
-          </StyledSubtitle>
-          <StyledSubtitle>
-            <StyledInput
-              type="radio"
-              name="subtitle"
-              value={2}
-              onChange={handlesubtitleChange}
-              checked={subtitle === 2}
-            />
-            <StyledP>사진</StyledP>
-          </StyledSubtitle>
-        </CheckboxContainer>
-      {subtitle === 2 && (
-        <ImageUploadContainer>
-          <ImageInput type="file" accept="image/*" onChange={handleImageChange} />
-        </ImageUploadContainer>
-      )}
-      </TopContainer>
-      <TitleContainer>
-        <TitleInput
-          type="text"
-          placeholder="제목을 입력해 주세요."
-          value={title}
-          onChange={handleTitleChange}
+      <PostCreateFrame>
+        <TopContainer>
+          <TagSelectorContainer >
+            <SubTitleSelect id="tagSelector" value={post_tag} onChange={handlePostTagChange}>
+              <option value="">게시글 태그 선택</option>
+              <option value="자유게시판">자유게시판</option>
+              <option value="질문게시판">질문게시판</option>
+              <option value="건의사항">건의사항</option>
+              <option value="불편사항">불편사항</option>
+            </SubTitleSelect>
+          </TagSelectorContainer>
+          <CheckboxContainer>
+            <StyledSubtitle>
+              <StyledInput
+                type="radio"
+                name="subtitle"
+                value={0}
+                onChange={handlesubtitleChange}
+                checked={subtitle === 0}
+              />
+              <StyledP>없음</StyledP>
+            </StyledSubtitle>
+            <StyledSubtitle>
+              <StyledInput
+                type="radio"
+                name="subtitle"
+                value={1}
+                onChange={handlesubtitleChange}
+                checked={subtitle === 1}
+              />
+              <StyledP>투표</StyledP>
+            </StyledSubtitle>
+            <StyledSubtitle>
+            </StyledSubtitle>
+          </CheckboxContainer>
+        </TopContainer>
+        {subtitle === 1 && (
+          <VoteContentInput
+            type="text"
+            placeholder="투표 내용을 입력하세요."
+            value={vote_content}
+            onChange={handleVoteContentChange}
+          />
+        )}
+        <TitleContainer>
+          <TitleInput
+            type="text"
+            placeholder="제목을 입력해 주세요."
+            value={title}
+            onChange={handleTitleChange}
+          />
+        </TitleContainer>  
+        <Textarea
+          placeholder="내용을 입력하세요."
+          value={body}
+          onChange={handleBodyChange}
         />
-      </TitleContainer>
-      <Textarea
-        placeholder="내용을 입력하세요."
-        value={body}
-        onChange={handleBodyChange}
-      />
-      <ButtonContainer>
-        <SaveButton type="button" onClick={handleSubmit}>저장</SaveButton>
-        <CancelButton type="button" onClick={handleCancel}>취소</CancelButton>
-      </ButtonContainer>
-    </PostCreateFrame>
+        <ButtonContainer>
+          <SaveButton type="button" onClick={handleSubmit}>저장</SaveButton>
+          <CancelButton type="button" onClick={handleCancel}>취소</CancelButton>
+        </ButtonContainer>
+      </PostCreateFrame>
     </Frame>
   );
 }
@@ -204,7 +205,7 @@ const TopContainer = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `;
 
 // 
@@ -251,6 +252,16 @@ const TitleContainer = styled.div`
   width: 90%;
 `;
 
+const VoteContentInput = styled.input`
+  width: 86%;
+  padding: 10px;
+  margin-bottom: 20px;
+  font-size: 18px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  outline: none;
+`;
+
 const TitleInput = styled.input`
   flex: 1;
   padding: 10px;
@@ -258,7 +269,6 @@ const TitleInput = styled.input`
   font-size: 25px;
   border-radius: 4px;
   border: 1px solid #ccc;
-  
   
   background-color: #ccc;
   &::placeholder{
@@ -281,7 +291,6 @@ const Textarea = styled.textarea`
 const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
-
   width: 100%;
   margin-top: 20px;
 `;
@@ -310,15 +319,15 @@ const CheckboxContainer = styled.div`
   align-items: center;
 `;
 
-const ImageUploadContainer = styled.div`
-  margin-bottom: 20px;
-  width: 30%;
-`;
+// const ImageUploadContainer = styled.div`
+//   margin-bottom: 20px;
+//   width: 30%;
+// `;
 
-const ImageInput = styled.input`
-  width: 100%;
-  padding: 10px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
-  outline: none;
-`
+// const ImageInput = styled.input`
+//   width: 100%;
+//   padding: 10px;
+//   border-radius: 4px;
+//   border: 1px solid #ccc;
+//   outline: none;
+// `;
