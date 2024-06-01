@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
 import DefaultImage from "../../assets/User.png"
+
 
 function MainPage(props) {
   const [liked, setLiked] = useState(false);
@@ -49,16 +50,46 @@ function MainPage(props) {
     }
   };
 
+  /*const handleAgreeSubmit = async (event) => {
+    event.preventDefault(); // 값이 제대로 제출되는지 확인
+
+    console.log("유저 : ", props.username);
+    console.log("")
+    const PostData = {
+        };
+
+    try {
+        const response = await fetch('http://localhost:8080/api/posts/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(PostData),
+        });
+
+        if (!response.ok) {
+            alert('글 작성 성공.')
+            throw new Error('글 작성 실패.');
+        }
+        const result = await response.json();
+        console.log('글 작성 성공:', result);
+    } catch (error) {
+        console.error('에러 발생:', error);
+    }
+};
+*/
+
   // 찬성 반대 퍼센트
   const renderButton = () => {
-    // type == 1일때 실행(투표)
-    if (props.type === 1) {
+    
+    if (props.vote_title) {  // 왜인지 모름
       const totalCount = agreeCount + disagreeCount;
       const agreePercent = totalCount > 0 ? (agreeCount / totalCount) * 100 : 0;
       const disagreePercent = totalCount > 0 ? (disagreeCount / totalCount) * 100 : 0;
-
+      
       return (
         <ButtonContainer>
+          <VoteTitle voteTitleLength={props.vote_title.length}>{props.vote_title}</VoteTitle>
           <Button onClick={handleAgreeClick} selected={selected === 'agree'}>찬 성</Button>
           <Percent>{agreePercent.toFixed(1)}%</Percent>
           <Button onClick={handleDisagreeClick} selected={selected === 'disagree'}>반 대</Button>
@@ -66,7 +97,8 @@ function MainPage(props) {
         </ButtonContainer>
       );
     } // type == 2일때 실행(사진)
-    else if (props.type === 2) {
+    /*
+     else if (props.type === 2) {
       return (
         <ButtonContainer>
           <Image>
@@ -75,6 +107,7 @@ function MainPage(props) {
         </ButtonContainer>
       );
     }
+    */
   };
 
   // 댓글 창 표시
@@ -86,7 +119,6 @@ function MainPage(props) {
   const CloseComments = () => {
     setShowComments(!showComments);
   };
-
   return (
     <PostContainer>
       <Header>
@@ -113,7 +145,7 @@ function MainPage(props) {
         </LikeContainer>
         <Comment onClick={OpenComments}>댓글을 보시려면 여기를 클릭해 주세요.</Comment>
       </Footer>
-      {showComments && <CommentList postId={props.postId} onClose={CloseComments} />}  
+      {showComments && <CommentList postId={props.postId} onClose={CloseComments} />}
     </PostContainer>
   );
 }
@@ -207,14 +239,14 @@ const Divider = styled.div`
 // 내용 및 버튼 컨테이너
 const ContentContainer = styled.div`
   display : flex;
-  padding-top: 70px;
+  padding-top: 50px;
   padding-left: 40px;
   margin-bottom: 20px;
 `;
 
 // 내용
 const Text = styled.div`
-  width : 600px;
+  width : 70%;
   font-size : 20px;
   line-height: 1.5;
   padding-right : 40px;
@@ -222,17 +254,41 @@ const Text = styled.div`
 
 // 버튼 컨테이너
 const ButtonContainer = styled.div`
-  flex: 1;
+  display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  margin-right: 20px;
+  height: 100%;
+  width: 30%;
+  margin-top: 10px;
+  margin-right: 0px;
+`;
+
+
+const getSizeContainer = (props) => {
+  if (props.voteTitleLength > 10) {
+    return css`
+      font-size: 20px;
+    `;
+  } else {
+    return css`
+      font-size: 30px;
+    `;
+  }
+};
+
+const VoteTitle = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-weight: bold;
+  ${(props) => getSizeContainer(props)}
 `;
 
 // 찬성 반대 버튼
 const Button = styled.button`
   padding: 10px 80px;
-  margin: 10px 0px;
-  margin-right: 20px;
+  margin: 10px auto;
   font-size: 16px;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -249,6 +305,7 @@ const Percent = styled.div`
 `;
 
 // 이미지 설정
+/*
 const Image = styled.div`
   padding: 0; 
   width: 200px; 
@@ -263,6 +320,7 @@ const Image = styled.div`
     border-radius: 10px;
   }
 `;
+*/
 
 // 하단 좋아요 및 댓글 컨테이너
 const Footer = styled.div`
