@@ -50,6 +50,34 @@ function MainPage(props) {
     }
   };
 
+  /*const handleAgreeSubmit = async (event) => {
+    event.preventDefault(); // 값이 제대로 제출되는지 확인
+
+    console.log("유저 : ", props.username);
+    console.log("")
+    const PostData = {
+        };
+
+    try {
+        const response = await fetch('http://localhost:8080/api/posts/create', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(PostData),
+        });
+
+        if (!response.ok) {
+            alert('글 작성 성공.')
+            throw new Error('글 작성 실패.');
+        }
+        const result = await response.json();
+        console.log('글 작성 성공:', result);
+    } catch (error) {
+        console.error('에러 발생:', error);
+    }
+};
+*/
   // 찬성 반대 퍼센트
   const renderButton = () => {
     // type == 1일때 실행(투표)
@@ -87,7 +115,6 @@ function MainPage(props) {
   const CloseComments = () => {
     setShowComments(!showComments);
   };
-
   return (
     <PostContainer>
       <Header>
@@ -114,7 +141,7 @@ function MainPage(props) {
         </LikeContainer>
         <Comment onClick={OpenComments}>댓글을 보시려면 여기를 클릭해 주세요.</Comment>
       </Footer>
-      {showComments && <CommentList postId={props.postId} onClose={CloseComments} />}  
+      {showComments && <CommentList postId={props.postId} onClose={CloseComments} />}
     </PostContainer>
   );
 }

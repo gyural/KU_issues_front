@@ -1,52 +1,32 @@
 import React from "react";
+import styled from 'styled-components';
 
-const styles = {
-  wrapper: { // 댓글 박스
-      margin: 10, // 박스간 여백
-      padding: 10, // 높이
-      display: "flex", // 
-      flexDirection: "row",
-      border: "2px solid grey",
-      borderRadius: 16,
-  },
-  imageContainer : {},
-  image: {                  // 이미지
-      width: 50,
-      height: 50,
-      borderRadius: 25,
-  },
-  contentContainer: {       // 댓글 위치
-      marginLeft: 8,
-      display: "flex",
-      flexDirection: "column",
-      justifyContent: "center",
-  },
-  nameText: {                // 이름
-      color: "black",
-      fontSize: 16,
-      fontWeight: "bold",
-  },
-  commentText:{            // 댓글 내용
-      color: "black",
-      fontSize: 16,
-  },
+function Comment({ name, comment }) {
+    return (
+        <CommentContainer>
+            <Name>{name}</Name>
+            <Text>{comment}</Text>
+        </CommentContainer>
+    );
 }
-function Comment(props){
-  return(
-      <div style={styles.wrapper}>
-          <div style={styles.imageContainer}>
-              <img 
-                  src = "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-                  style = {styles.image}
-              />
-          </div>
-          <div style={styles.contentContainer}>
-              <span style={styles.nameText}>{props.name}</span>
-              <span style={styles.commentText}>
-                  {props.comment}
-              </span>
-          </div>
-      </div>
-  );
-}
+
 export default Comment;
+
+// 개별 댓글 컨테이너
+const CommentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+`;
+
+// 이름
+const Name = styled.div`
+    font-weight: bold;
+    margin-bottom: 5px;
+`;
+
+// 댓글 내용
+const Text = styled.div`
+    font-size: 14px;
+`;
