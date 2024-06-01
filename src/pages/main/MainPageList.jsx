@@ -7,6 +7,8 @@ import IntroImg from "../../assets/mainpageimg2.png";
 const MainPageList = () => {
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+    const [isSearchClicked, setIsSearchClicked] = useState(false);
+
 
     useEffect(() => {
         fetch("http://localhost:8080/api/posts", {
@@ -44,6 +46,7 @@ const MainPageList = () => {
     };
 
     return (
+
         <Container>
             <MainPageHeader searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
             <IntroContainer src={IntroImg}/>
@@ -65,9 +68,9 @@ const MainPageList = () => {
             </Post>
         </Container>
     );
-}
+};
 
-export default MainPageList;
+
 
 const Container = styled.div`
     width: 100%;
@@ -98,3 +101,5 @@ const Post = styled.div`
     top: 0px; 
     overflow-y: auto;
 `;
+
+export default MainPageList;

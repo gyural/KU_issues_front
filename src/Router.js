@@ -8,7 +8,7 @@ import ProfileEditPage from './pages/ProfileEditPage';
 import Survey from './pages/survey/SurveyPage';
 import SurveyResPage from './pages/survey/surveyResPage';
 import Test from './pages/Test';
-
+import AnswerResult from './pages/survey/answerResult';
 
 
 
@@ -24,7 +24,8 @@ const AppRouter = ({ setIsLoggedIn }) => {
         <Route path='/survey' element={<Survey />} />
         <Route path='/surveyRes' element={<SurveyResPage />}/>
         <Route path='/test' element={<Test />} />
-        <Route path='/test' element={<Test />} />
+
+        <Route path='/answerResult' element={<AnswerResult />} />
       </Routes>
     </Router>
   );
