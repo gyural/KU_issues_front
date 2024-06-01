@@ -43,14 +43,12 @@ const MainPageList = () => {
             <Post>
                 {filteredPosts.map((post) => (
                     <MainPage
-                        key={post.post_id}
                         postId={post.post_id}
                         username={post.user_id}
                         subtitle={post.post_tag}
+                        vote_title={post.vote_content}
                         title={post.title}
                         text={post.body}
-                        type={post.type}
-                        image={post.image}
                     />
                 ))}
             </Post>

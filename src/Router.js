@@ -19,11 +19,11 @@ const AppRouter = ({ setIsLoggedIn }) => {
         <Route path='/' element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
         <Route path='/myprofile' element={<UserProfilePage />} />
         <Route path='/mainpage' element={<MainPageList />} />
+        <Route path='/createpost' element={<CreatePost />} />
         <Route path='/profileedit' element={<ProfileEditPage />} />
         <Route path='/survey' element={<Survey />} />
         <Route path='/surveyRes' element={<SurveyResPage />}/>
         <Route path='/test' element={<Test />} />
-        <Route path='/survey' element={<Survey />} />
         <Route path='/test' element={<Test />} />
       </Routes>
     </Router>
