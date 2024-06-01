@@ -135,11 +135,8 @@ function SurveyRes({setMode, surveyID}) {
     
   }
   useEffect(() => {
-    console.log('발동')
-    console.log(surveyID)
     const fetchData = async () => {
       const survey = await getSurveyOne(surveyID);
-      console.log(survey)
       // const survey = await getSurveyOne(surveyID);
       if (survey) {
         setSurveyTitle(survey.title)
