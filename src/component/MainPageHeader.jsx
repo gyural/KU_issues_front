@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { RiSoundModuleLine } from "react-icons/ri";
 import { LiaSearchSolid } from "react-icons/lia";
@@ -33,7 +33,7 @@ const SearchBar = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    & > div{
+    & > div#inputComp{
         width: 80%;
         margin-left: 1%;
         background-color: #fff;
@@ -78,6 +78,23 @@ const NavButtons = styled.div`
     
     & > button{
         padding: 10px;
+        height: 50%;
+        font-weight: 500;
+        color: #0D6EFD;
+        border: 1px solid #0D6EFD;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    & > a{
+        text-decoration: none;
+        margin-right: 8%;
+    }
+    & > a > button{
+        padding: 10px;
         margin-right: 8%;
         height: 50%;
         font-weight: 500;
@@ -90,23 +107,64 @@ const NavButtons = styled.div`
         align-items: center;
         justify-content: center;
     }
-    & > button#logout{
+    & > a > button#logout{
         background-color: #0D6EFD;
         color: #fff;
     }
 `;
+const DropdownMenu = styled.div`
+    width: 30%;
+    position: absolute;
+    top: 80px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 9999;
+    & > div {
+        padding: 10px;
+        cursor: pointer;
 
-function MainPageHeader({ searchTerm, onSearchChange }) {
+        &:hover {
+            background-color: #f1f1f1;
+        }
+    }
+`;
+
+function MainPageHeader({ onSearchClick }) {
+    const [isDropdownVisible, setDropdownVisible] = useState(false);
+
+    const showDropdown = () => {
+        setDropdownVisible(true);
+    };
+    const hideDropdown = () => {
+        setDropdownVisible(false);
+    };
+
     return (
         <Header>
             <Logo>
                 KU_issues
             </Logo>
             <SearchBar>
-                <button id='Categories'>
+                <button
+                    id='Categories'
+                    onMouseEnter={showDropdown}
+                    onMouseLeave={hideDropdown}
+                >
                     <RiSoundModuleLine size={23} />
                 </button>
-                <div>
+                {isDropdownVisible && (
+                    <DropdownMenu
+                        onMouseEnter={showDropdown}
+                        onMouseLeave={hideDropdown}
+                    >
+                        <div>Category 1</div>
+                        <div>Category 2</div>
+                        <div>Category 3</div>
+                    </DropdownMenu>
+                )}
+                <div id='inputComp'>
                     <input
                         type='text'
                         placeholder='Search'
@@ -114,13 +172,13 @@ function MainPageHeader({ searchTerm, onSearchChange }) {
                         onChange={onSearchChange}
                     />
                     <button id='search'>
-                        <LiaSearchSolid size={23}/>
+                        <LiaSearchSolid size={23} />
                     </button>
                 </div>
             </SearchBar>
             <NavButtons>
                 <button id='post'>Create Post</button>
-                <button id='logout'>Logout</button>
+                <Link to='/'><button id='logout'>Logout</button></Link>
             </NavButtons>
         </Header >
     );
