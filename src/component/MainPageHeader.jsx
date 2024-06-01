@@ -140,6 +140,7 @@ function MainPageHeader({ onSearchClick }) {
     const hideDropdown = () => {
         setDropdownVisible(false);
     };
+
     return (
         <Header>
             <Logo>
@@ -167,7 +168,8 @@ function MainPageHeader({ onSearchClick }) {
                     <input
                         type='text'
                         placeholder='Search'
-                        onClick={onSearchClick}
+                        value={searchTerm}
+                        onChange={onSearchChange}
                     />
                     <button id='search'>
                         <LiaSearchSolid size={23} />
