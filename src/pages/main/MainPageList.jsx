@@ -36,6 +36,13 @@ const MainPageList = () => {
             post.body.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const countDownvotes = (votes) => {
+        return votes.filter(vote => vote.vote_type === "downvote").length;
+    };
+    const countUpvotes = (votes) => {
+        return votes.filter(vote => vote.vote_type === "upvote").length;
+    };
+
     return (
         <Container>
             <MainPageHeader searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
@@ -43,12 +50,16 @@ const MainPageList = () => {
             <Post>
                 {filteredPosts.map((post) => (
                     <MainPage
-                        postId={post.post_id}
-                        username={post.user_id}
+                        postId={post.id}
+                        username={post.users.nickname}
+                        userId={post.user_id} // 아마 수정해야될듯?
                         subtitle={post.post_tag}
                         vote_title={post.vote_content}
                         title={post.title}
                         text={post.body}
+                        
+                        disagreeCount={countDownvotes(post.votes)}
+                        agreeCount={countUpvotes(post.votes)}
                     />
                 ))}
             </Post>
