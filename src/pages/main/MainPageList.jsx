@@ -7,7 +7,7 @@ import IntroImg from "../../assets/mainpageimg2.png";
 const MainPageList = () => {
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
-    const [isSearchClicked, setIsSearchClicked] = useState(false);
+    // const [isSearchClicked, setIsSearchClicked] = useState(false);
 
 
     useEffect(() => {
@@ -39,7 +39,6 @@ const MainPageList = () => {
     );
 
     return (
-
         <Container>
             <MainPageHeader searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
             <IntroContainer src={IntroImg}/>
