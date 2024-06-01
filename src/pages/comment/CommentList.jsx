@@ -1,34 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { keyframes } from 'styled-components';
 import Comment from "./Comment";
 import downArrow from '../../assets/down.png';
 
-const commentsData = {
-    1: [
-        { name: "정준용", comment: "안녕" },
-        { name: "시스템", comment: "응답없음." }
-    ],
-    2: [
-        { name: "집사", comment: "고양이" }
-    ],
-    3: [
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." },
-        { name: "시스템", comment: "응답없음." }
-    ]
-};
-
 function CommentList({ postId, onClose }) {
-    const [comments, setComments] = useState(commentsData[postId] || []);
+    const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
+    
+    useEffect(() => {
+            fetch(`http://localhost:8080/api/comments/${postId}`, {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    setComments(data); 
+                })
+                .catch(error => {
+                    console.error('Error fetching comments:', error);
+                });
+
+        },
+     [postId]);
 
     const handleInputChange = (e) => {
         setNewComment(e.target.value);
@@ -49,7 +44,7 @@ function CommentList({ postId, onClose }) {
             </CloseButtonContainer>
             <CommentsContent>
                 {comments.map((comment, index) => (
-                    <Comment key={index} name={comment.name} comment={comment.comment} />
+                    <Comment key={index} name={comment.User.nickname} comment={comment.content} />
                 ))}
             </CommentsContent>
             <CommentForm onSubmit={handleFormSubmit}>

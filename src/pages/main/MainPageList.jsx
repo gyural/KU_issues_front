@@ -1,47 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MainPage from "./MainPage";
-import Search from "./Search";
 import MainPageHeader from "../../component/MainPageHeader";
-
-const posts = [
-    {
-        postId: 1,
-        username: "피카츄",
-        subtitle: "자유게시판",
-        title: "점메추",
-        text: "점심 먹을려하는데 제육을 먹을까 돈까스를 먹을까 돈까스추천은 찬성 제육 추천은 반대 망관부",
-        type: 0
-    },
-    {
-        postId: 2,
-        username: "집사",
-        subtitle: "질문게시판",
-        title: "꽁꽁얼어붙음",
-        text: "꽁꽁얼어붙은한강위로고양이거fdsfadfasfdsfafdsfdsfdsafadsfdsfdsafasdfdsfasdffasdfaf걸어다닙니다..",
-        type: 1
-    },
-    {
-        postId: 3,
-        username: "집사",
-        subtitle: "건의사항",
-        title: "꽁꽁얼어붙음",
-        text: "꽁꽁얼어붙은한강위로고양이거fdsfadfasfdsfafdsfdsfdsafadsfdsfdsafasdfdsfasdffasdfaf걸어다닙니다..",
-        type: 2,
-        image: "https://upload.wikimedia.org/wikipedia/commons/8/89/Portrait_Placeholder.png"
-    },
-    {
-        postId: 4,
-        username: "한시현",
-        subtitle: "질문게시판",
-        title: "내일 뭐먹을까",
-        text: "제육 돈까스",
-        type: 1
-    }
-];
+import IntroImg from "../../assets/mainpageimg2.png";
 
 const MainPageList = () => {
+    const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
+
+    useEffect(() => {
+        fetch("http://localhost:8080/api/posts", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts');
+            }
+            return response.json();
+        })
+        .then(data => setPosts(data))
+        .catch(error => console.error("Error fetching posts:", error));
+    }, []);
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -50,23 +32,23 @@ const MainPageList = () => {
     const filteredPosts = posts.filter(
         (post) =>
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.subtitle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            post.text.toLowerCase().includes(searchTerm.toLowerCase())
+            post.post_tag.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            post.body.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <Container>
-            <MainPageHeader/>
+            <MainPageHeader searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+            <IntroContainer src={IntroImg}/>
             <Post>
-                <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
                 {filteredPosts.map((post) => (
-                    <MainPage 
-                        key={post.postId}
-                        username={post.username}
-                        subtitle={post.subtitle}
+                    <MainPage
+                        key={post.post_id}
+                        postId={post.post_id}
+                        username={post.user_id}
+                        subtitle={post.post_tag}
                         title={post.title}
-                        postId={post.postId}
-                        text={post.text}
+                        text={post.body}
                         type={post.type}
                         image={post.image}
                     />
@@ -81,11 +63,29 @@ export default MainPageList;
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    width: 100%;
+    height: 100%;
 `;
 
+const IntroContainer = styled.img`
+  display: flex;
+  flex-direction: column;
+  width: 820px;
+  height: auto;
+  margin : 0px auto;
+  margin-left: 33%;
+  position: sticky;
+  background-color: white;
+  top: 80px; 
+  z-index: 1;
+`  
+
 const Post = styled.div`
-    margin-left: 15%; 
+    margin-left: 20%; 
     width: 85%; 
     padding: 20px;
+    padding-top: 0;
+    position: sticky;
+    top: 0px; 
     overflow-y: auto;
 `;
