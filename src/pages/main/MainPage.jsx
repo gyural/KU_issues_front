@@ -1,3 +1,4 @@
+//메인페이지
 import React, { useState } from "react";
 import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
@@ -19,7 +20,7 @@ function MainPage(props) {
       user_id: props.userID,
     };
     console.log(props.postId);
-    
+    console.log(props.userID);
     console.log(voteType);
 
     try {
@@ -47,28 +48,20 @@ function MainPage(props) {
 
   // 찬성 버튼 클릭
   const handleAgreeClick = () => {
-    if (selected === 'agree') {
-      setAgreeCount(agreeCount - 1);
-      setSelected(null);
+    if (selected === 'agree' || selected === 'disagree') {
+      return; 
     } else {
-      if (selected === 'disagree') {
-        setDisagreeCount(disagreeCount - 1);
-      }
       setAgreeCount(agreeCount + 1);
       setSelected('agree');
       sendVote('upvote');
     }
   };
 
-  // 반대 버튼 클릭 시 실행되는 함수
+  // 반대 버튼 클릭
   const handleDisagreeClick = () => {
-    if (selected === 'disagree') {
-      setDisagreeCount(disagreeCount - 1);
-      setSelected(null);
+    if (selected === 'disagree' || selected ==='agree') {
+      return
     } else {
-      if (selected === 'agree') {
-        setAgreeCount(agreeCount - 1);
-      }
       setDisagreeCount(disagreeCount + 1);
       setSelected('disagree');
       sendVote('downvote');
