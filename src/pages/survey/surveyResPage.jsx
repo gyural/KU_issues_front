@@ -4,17 +4,18 @@ import SurveyList from '../survey/SurveyList';
 import SurveyRes from './surveyRes';
 
 function SurveyResPage() {
-  const [mode, setMode] = useState('write')
+  const [mode, setMode] = useState('read')
+  const [surveyID, setSurveyID] = useState(null)
   return (
     <>
     
       <MainHeader></MainHeader>
       {(mode === 'read') &&(
-          <SurveyList></SurveyList>
+          <SurveyList setMode={setMode} setSurveyID={setSurveyID}></SurveyList>
 
       )}
       {(mode === 'write') &&(
-          <SurveyRes></SurveyRes>
+          <SurveyRes setMode={setMode} surveyID={surveyID}></SurveyRes>
 
       )}
     </>
