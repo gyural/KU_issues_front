@@ -3,6 +3,8 @@ import styled from "styled-components";
 import MainPage from "./MainPage";
 import Search from "./Search";
 import MainPageHeader from "../../component/MainPageHeader";
+import SmallHeader from "../../component/SmallHeader";
+import SideBar from "../../component/SideBar";
 
 const posts = [
     {
@@ -42,7 +44,12 @@ const posts = [
 
 const MainPageList = () => {
     const [searchTerm, setSearchTerm] = useState("");
+    const [isSearchClicked, setIsSearchClicked] = useState(false);
 
+    const handleContainerClick = (e) => {
+        if (e.target.closest('.header-container')) return;
+        setIsSearchClicked(false);
+    };
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
@@ -55,12 +62,19 @@ const MainPageList = () => {
     );
 
     return (
-        <Container>
-            <MainPageHeader/>
+        <Container onClick={handleContainerClick}>
+            <div className="header-container" onClick={(e) => e.stopPropagation()}>
+                {isSearchClicked ? (
+                    <SmallHeader autoFocus />
+                ) : (
+                    <MainPageHeader onSearchClick={() => setIsSearchClicked(true)} />
+                )}
+            </div>
+            <SideBar />
             <Post>
                 <Search searchTerm={searchTerm} onSearchChange={handleSearchChange} />
                 {filteredPosts.map((post) => (
-                    <MainPage 
+                    <MainPage
                         key={post.postId}
                         username={post.username}
                         subtitle={post.subtitle}
@@ -74,13 +88,13 @@ const MainPageList = () => {
             </Post>
         </Container>
     );
-}
+};
 
-export default MainPageList;
+
 
 const Container = styled.div`
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100vh;
 `;
 
 const Post = styled.div`
@@ -89,3 +103,5 @@ const Post = styled.div`
     padding: 20px;
     overflow-y: auto;
 `;
+
+export default MainPageList;
