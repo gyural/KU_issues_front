@@ -61,4 +61,34 @@ const getSurveyOne = async (surveyID)=>{
     return []
   })
 }
-export {createSurvey, getAllSurvey, getSurveyOne}
+
+/**
+ * 
+ * @param {*} surveyID 
+ * @param {*} respondent 
+ * @param {array} answerLIst 
+ * answerList of answer: {"answer": "새로운 답"},
+ */
+const answerSurvey = async (surveyID, respondent, answerList) => {
+  const answer = { surveyID, respondent, answerList };  
+  const reqData = JSON.stringify(answer);
+  console.log(reqData);
+
+  return await axios.post(`${baseURL}/api/survey/${surveyID}/answer`, reqData, {
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (response.status === 201) {
+      return true;
+    } else {
+      return false;
+    }
+  })
+  .catch(err => {
+    console.log(err);
+    return false;
+  });
+}
+export {createSurvey, getAllSurvey, getSurveyOne, answerSurvey}
