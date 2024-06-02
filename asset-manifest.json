@@ -1,19 +1,19 @@
 {
   "files": {
-    "main.css": "/KU_issues_front/static/css/main.b8944c2e.css",
-    "main.js": "/KU_issues_front/static/js/main.6f92db76.js",
-    "static/js/453.73c1b0e3.chunk.js": "/KU_issues_front/static/js/453.73c1b0e3.chunk.js",
-    "static/media/User.png": "/KU_issues_front/static/media/User.157f088b56f86d22066e.png",
-    "static/media/117966919___n.jpg": "/KU_issues_front/static/media/117966919_3233663960021962_562818201846139897_n.a88f20fa006394a51770.jpg",
-    "static/media/mainpageimg2.png": "/KU_issues_front/static/media/mainpageimg2.a95e5769e800323c7c45.png",
-    "static/media/crimson2positive.gif": "/KU_issues_front/static/media/crimson2positive.66007bd4d89993641d86.gif",
-    "index.html": "/KU_issues_front/index.html",
-    "main.b8944c2e.css.map": "/KU_issues_front/static/css/main.b8944c2e.css.map",
-    "main.6f92db76.js.map": "/KU_issues_front/static/js/main.6f92db76.js.map",
-    "453.73c1b0e3.chunk.js.map": "/KU_issues_front/static/js/453.73c1b0e3.chunk.js.map"
+    "main.css": "/ku-issues-front/static/css/main.b8944c2e.css",
+    "main.js": "/ku-issues-front/static/js/main.3152c6b2.js",
+    "static/js/453.73c1b0e3.chunk.js": "/ku-issues-front/static/js/453.73c1b0e3.chunk.js",
+    "static/media/User.png": "/ku-issues-front/static/media/User.157f088b56f86d22066e.png",
+    "static/media/117966919___n.jpg": "/ku-issues-front/static/media/117966919_3233663960021962_562818201846139897_n.a88f20fa006394a51770.jpg",
+    "static/media/mainpageimg2.png": "/ku-issues-front/static/media/mainpageimg2.a95e5769e800323c7c45.png",
+    "static/media/crimson2positive.gif": "/ku-issues-front/static/media/crimson2positive.66007bd4d89993641d86.gif",
+    "index.html": "/ku-issues-front/index.html",
+    "main.b8944c2e.css.map": "/ku-issues-front/static/css/main.b8944c2e.css.map",
+    "main.3152c6b2.js.map": "/ku-issues-front/static/js/main.3152c6b2.js.map",
+    "453.73c1b0e3.chunk.js.map": "/ku-issues-front/static/js/453.73c1b0e3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b8944c2e.css",
-    "static/js/main.6f92db76.js"
+    "static/js/main.3152c6b2.js"
   ]
 }
