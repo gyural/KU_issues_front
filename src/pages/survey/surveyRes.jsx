@@ -128,7 +128,7 @@ function SurveyRes({setMode, surveyID}) {
   const handleSubmit = async()=>{
     const newAnswer = [[...answerList, {answer: questionList[focus]['answerList'][focusAnswer]}]]
 
-    const res = await answerSurvey(surveyID, '2019270617', answerList)
+    const res = await answerSurvey(surveyID, '2019270617', newAnswer)
     //successPage로 라우팅
     
     navigate('/answerResult', {state:res})
