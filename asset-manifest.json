@@ -1,18 +1,18 @@
 {
   "files": {
     "main.css": "/ku_issues_front/static/css/main.b8944c2e.css",
-    "main.js": "/ku_issues_front/static/js/main.2c7d476c.js",
+    "main.js": "/ku_issues_front/static/js/main.ce057d59.js",
     "static/js/453.73c1b0e3.chunk.js": "/ku_issues_front/static/js/453.73c1b0e3.chunk.js",
     "static/media/User.png": "/ku_issues_front/static/media/User.157f088b56f86d22066e.png",
     "static/media/117966919___n.jpg": "/ku_issues_front/static/media/117966919_3233663960021962_562818201846139897_n.a88f20fa006394a51770.jpg",
     "static/media/mainpageimg2.png": "/ku_issues_front/static/media/mainpageimg2.a95e5769e800323c7c45.png",
     "index.html": "/ku_issues_front/index.html",
     "main.b8944c2e.css.map": "/ku_issues_front/static/css/main.b8944c2e.css.map",
-    "main.2c7d476c.js.map": "/ku_issues_front/static/js/main.2c7d476c.js.map",
+    "main.ce057d59.js.map": "/ku_issues_front/static/js/main.ce057d59.js.map",
     "453.73c1b0e3.chunk.js.map": "/ku_issues_front/static/js/453.73c1b0e3.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b8944c2e.css",
-    "static/js/main.2c7d476c.js"
+    "static/js/main.ce057d59.js"
   ]
 }
