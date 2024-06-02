@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import MainLoginHeader from '../component/UserHeader';
 import UserProfile from '../component/UserProfile';
-import MainHeader from '../component/GuestHeader';
 import getUserProfile from '../APIs/api';
+import MainPageHeader from '../component/MainPageHeader';
 
 function UserProfilePage() {
   const isLoggedIn = true; // isLoggedIn을 true로 설정하여 테스트
@@ -30,7 +29,7 @@ function UserProfilePage() {
 
   return (
     <div>
-      {isLoggedIn ? <MainLoginHeader /> : <MainHeader />}
+      <MainPageHeader />
       <UserProfile
         userid={userProfile.id}
         username={userProfile.name}
