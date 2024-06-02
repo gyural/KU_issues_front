@@ -149,7 +149,7 @@ function SignUpComponent({ setActivePage }) {
             }
             const result = await response.json();
             console.log('회원가입 성공:', result);
-            alert('회원가입에 성공했습니다.')
+            alert('회원가입에 성공했습니다.');
             console.log("there");
             setActivePage('signIn');
             console.log("here");
