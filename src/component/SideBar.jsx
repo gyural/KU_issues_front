@@ -24,7 +24,7 @@ const Logo = styled.div`
 `
 
 const MainSideBar = styled.div`
-    width: 15%;
+    width: 100%;
     height: 80%;
     text-align: center;
     box-shadow: 1px 1px 1px #bbbbbb, -1px -1px 1px #bbbbbb;
