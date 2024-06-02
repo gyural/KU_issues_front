@@ -122,7 +122,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('https://udr2.wild2.duckdns.org/api/profile', {
+        const response = await axios.get('http://localhost:8080/api/profile', {
           withCredentials: true,
         });
         if (response.status === 200) {
@@ -165,7 +165,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
     }
 
     try {
-      const response = await axios.put('https://udr2.wild2.duckdns.org/api/profile/edit', userData, {
+      const response = await axios.put('http://localhost:8080/api/profile/edit', userData, {
         withCredentials: true,
       });
       if (response.status === 200) {

@@ -110,7 +110,7 @@ function SideBar() {
             </SideBarHeader>
             <hr />
             <Link to='/mainpage'>
-                <SideBarButton className={location.pathname === '/mainpage' ? 'active' : ''}>
+                <SideBarButton className={(location.pathname === '/mainpage' || location.pathname === '/createpost') ? 'active' : ''}>
                     <IoHomeOutline size='20' />
                     <span>메인 페이지</span>
                 </SideBarButton>

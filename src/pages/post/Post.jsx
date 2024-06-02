@@ -31,7 +31,7 @@ function CreatePost() {
       setSidebarTop(targetTop);
 
     };
-
+    
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -92,7 +92,7 @@ function CreatePost() {
     };
   
     try {
-      const response = await fetch('https://udr2.wild2.duckdns.org/api/posts/create', {
+      const response = await fetch('http://localhost:8080/api/posts/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
