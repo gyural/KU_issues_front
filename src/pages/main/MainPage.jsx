@@ -74,9 +74,8 @@ function MainPage(props) {
 
   // 찬성 버튼 클릭
   const handleAgreeClick = () => {
-    if (selected === 'agree') {
-      setAgreeCount(agreeCount - 1);
-      setSelected(null);
+    if (selected === 'disagree' || selected ==='agree') {
+      return
     } else {
       setAgreeCount(agreeCount + 1);
       setSelected('agree');

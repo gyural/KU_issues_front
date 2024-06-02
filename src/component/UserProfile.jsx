@@ -124,12 +124,15 @@ function UserProfile({ userid, username, nickname, year, password}) {
           마이페이지
           <Link to='/profileedit'>회원정보 수정<IoIosArrowForward /></Link>
         </div>
+        <div>
+
+        </div>
         <div className='UserInform'>
           <p><span className='info'>학번</span><span className='UserInfo'>{userid}</span></p>
           <p><span className='info'>이름</span><span className='UserInfo'>{username}</span></p>
           <p><span className='info'>닉네임</span><span className='UserInfo'>{nickname}</span></p>
           <p><span className='info'>학년</span><span className='UserInfo'>{year}</span></p>
-          <p><span className='info'>비밀번호</span><span className='UserInfo'>{password}</span></p>
+          <p><span className='info'>비밀번호</span><span className='UserInfo'></span></p>
         </div>
         <button className='DeletedButton' onClick={handleDeleteAccount}>회원탈퇴</button>
       </MyPageCard>
