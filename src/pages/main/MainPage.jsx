@@ -31,7 +31,7 @@ function MainPage(props) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-        },
+        },  
         credentials: 'include',
         body: JSON.stringify(voteData),
       });

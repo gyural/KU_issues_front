@@ -112,11 +112,11 @@ const Container = styled.div`
     height: 100%;
 `;
 const SideBarContainer = styled.div`
+    width: 15%;
     position: fixed;
     top: 80px;
     left: 0;
     height: calc(100% - 80px);
-    width: 100%;
     z-index: 1000;
     transition: top 0.3s ease;
 `;
