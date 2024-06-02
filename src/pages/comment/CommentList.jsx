@@ -7,23 +7,25 @@ function CommentList({ postId, onClose }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     
-    useEffect(() => {
-            fetch(`http://localhost:8080/api/comments/${postId}`, {
-                method: "GET",
-                headers: {
-                    "Content-Type": "application/json"
-                }
-            })
-                .then(response => response.json())
-                .then(data => {
-                    setComments(data); 
-                })
-                .catch(error => {
-                    console.error('Error fetching comments:', error);
-                });
+    // 더미 데이터로 userId 설정
+    const userId = "123";
 
-        },
-     [postId]);
+    useEffect(() => {
+        fetch(`http://localhost:8080/api/comments/${postId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+            
+        })
+        .then(response => response.json())
+        .then(data => {
+            setComments(data); 
+        })
+        .catch(error => {
+            console.error('Error fetching comments:', error);
+        });
+    }, [postId]);
 
     const handleInputChange = (e) => {
         setNewComment(e.target.value);
@@ -32,8 +34,33 @@ function CommentList({ postId, onClose }) {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         if (newComment) {
-            setComments([...comments, { name: "익명", comment: newComment }]);
-            setNewComment("");
+            // 서버로 새로운 댓글을 POST 요청
+            fetch(`http://localhost:8080/api/comments/${postId}/create`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    withCredentials: true,
+                },
+                body: JSON.stringify({
+                    user_id: userId,
+                    post_id: postId,
+                    content: newComment,
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to post comment');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // 새로운 댓글을 추가한 후 댓글 목록을 업데이트
+                setComments([...comments, data]);
+                setNewComment("");
+            })
+            .catch(error => {
+                console.error('Error posting comment:', error);
+            });
         }
     };
 
@@ -54,7 +81,7 @@ function CommentList({ postId, onClose }) {
                     onChange={handleInputChange}
                     placeholder="댓글"
                 />
-                <CommentSubmitButton >입력</CommentSubmitButton>
+                <CommentSubmitButton>입력</CommentSubmitButton>
             </CommentForm>
         </CommentsContainer>
     );
@@ -78,27 +105,27 @@ const slideUpFromBottom = keyframes`
 const CommentsContainer = styled.div`
     display: flex;
     flex-direction: column;
-    width : 800px; 
+    width: 800px;
     margin: 0px auto;
     margin-left: 28%;
     padding: 10px;
     border-top: 1px solid #ccc;
     animation: ${slideUpFromBottom} 800ms ease-out;
-    position: fixed; 
-    bottom: 0; 
+    position: fixed;
+    bottom: 0;
     left: 0;
     right: 0;
-    max-height: 60%; 
-    background: white;  // 배경색 설정(안하면 뒷 게시글이 보임)
+    max-height: 60%;
+    background: white;
     box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
     border-radius: 10px 10px 0 0;
-    z-index: 1000; // 제일 상단에 표시
-    overflow: hidden;  
+    z-index: 1000;
+    overflow: hidden;
 `;
 
 // 댓글 내용 컨테이너
 const CommentsContent = styled.div`
-    overflow-y: auto; 
+    overflow-y: auto;
     max-height: calc(100% - 120px);
 `;
 
@@ -125,7 +152,7 @@ const CommentForm = styled.form`
 
 // 댓글 입력
 const CommentInput = styled.input`
-    display : flex;
+    display: flex;
     flex: 1;
     padding: 10px;
     border: 1px solid #ccc;

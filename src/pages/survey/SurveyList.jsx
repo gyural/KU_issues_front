@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { getAllSurvey } from '../../APIs/surveyAPI';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
     width: 100%;
@@ -69,7 +70,14 @@ const NxtBtn = styled.button`
     }
   }
 `
-function SurveyList() {
+function SurveyList({setSurveyID, setMode}) {
+  const navigate = useNavigate()
+  const handleWrite = (id)=>{
+    setSurveyID(id)
+    setMode('write')
+
+  }
+
   const [surveyList, setSurveyList] = useState([])
   useEffect(() => {
     const fetchData = async () => {
@@ -88,7 +96,7 @@ function SurveyList() {
             <span style={{fontSize: '34px', marginBottom: '32px', fontWeight: 700}}>{survey.title}</span>
             <span style={{marginBottom: '22px', color: '#181818'}}>{survey.description}</span>
             <div style={{width:'90%', height: '1px', backgroundColor: '#ccc', marginBottom: '10px'}}></div>
-            <NxtBtn>답변하러 가기</NxtBtn>
+            <NxtBtn onClick={()=>{handleWrite(Number(survey.id))}}>답변하러 가기</NxtBtn>
           </PostWrapper>
         </PostContainer>)
       })}

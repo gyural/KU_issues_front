@@ -2,6 +2,7 @@
 import React, { useEffect, useRef } from 'react';
 import styled, {keyframes} from 'styled-components';
 import { LiaSearchSolid } from "react-icons/lia";
+import { Link } from 'react-router-dom';
 
 const slide = keyframes`
   from {
@@ -97,6 +98,27 @@ const NavButtons = styled.div`
         background-color: #0D6EFD;
         color: #fff;
     }
+    & > a{
+        text-decoration: none;
+    }
+    & > a > button{
+        padding: 10px;
+        margin-right: 8%;
+        height: 50%;
+        font-weight: 500;
+        color: #0D6EFD;
+        border: 1px solid #0D6EFD;
+        border-radius: 5px;
+        background-color: #fff;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    & > a > button#logout{
+        background-color: #0D6EFD;
+        color: #fff;
+    }
 `;
 
 function SmallHeader({ autoFocus }) {
@@ -127,7 +149,7 @@ function SmallHeader({ autoFocus }) {
             </SearchBar>
             <NavButtons>
                 <button id='post'>Create Post</button>
-                <button id='logout'>Logout</button>
+                <Link to='/'><button id='logout'>Logout</button></Link>
             </NavButtons>
         </Header >
     );

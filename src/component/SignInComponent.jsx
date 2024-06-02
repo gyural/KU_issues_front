@@ -73,6 +73,7 @@ const InputDiv = styled.div`
   border: none;
   border-radius: 1rem;
   text-align: center;
+  overflow: hidden;
   & > input {
     background-color: inherit;
   }

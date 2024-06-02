@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { Icon } from '@iconify/react';
 import styled from 'styled-components';
-import {getSurveyOne} from '../../APIs/surveyAPI'
+import {getSurveyOne, answerSurvey} from '../../APIs/surveyAPI'
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.div`
   width: 100%;
@@ -65,8 +66,9 @@ const NxtBtn = styled.button`
         #56A82B 46%,
         #009045 100%
     );
+  cursor: pointer;
   background-size: 200% 100%;
-  animation: gradientMove 3s linear infinite;
+  animation: gradientMove 2s linear infinite, bounce 1.0s infinite ease;
 
   @keyframes gradientMove {
     0% {
@@ -79,7 +81,17 @@ const NxtBtn = styled.button`
       background-position: 0% 50%;
     }
   }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(2px);
+    }
+  }
 `
+
 const Option = styled.div`
   width: 50%;
   font-size: 24px;
@@ -100,7 +112,8 @@ const Option = styled.div`
         : 'linear-gradient(to right, #b6b6b6 0%, #c3c3c3 46%, #c3c3c3 100%)'};
   }
 `;
-function SurveyRes() {
+function SurveyRes({setMode, surveyID}) {
+
   const handlefocusQuestion = (val)=>{
     setFocus(focus + val)
     setFocusAnswer(null)
@@ -108,24 +121,38 @@ function SurveyRes() {
   const handleOptionClick = (idx)=>{
     setFocusAnswer(idx)
   }
-  const handleSubmit = ()=>{
+  const handleNxt = () =>{
+    setAnswerList([...answerList, {answer: questionList[focus]['answerList'][focusAnswer]}])
+    handlefocusQuestion(+1)
+  }
+  const handleSubmit = async()=>{
+    const newAnswer = [[...answerList, {answer: questionList[focus]['answerList'][focusAnswer]}]]
 
+    const res = await answerSurvey(surveyID, '2019270617', answerList)
+    //successPage로 라우팅
+    
+    navigate('/answerResult', {state:res})
+    
   }
   useEffect(() => {
     const fetchData = async () => {
-      const survey = await getSurveyOne(11);
+      const survey = await getSurveyOne(surveyID);
+      // const survey = await getSurveyOne(surveyID);
       if (survey) {
-        setSurveyTitle(survey.survey.title)
+        setSurveyTitle(survey.title)
         setQuestionList(survey.questionList)
       }
     };
     fetchData();
   }, []);
+
   const [focusAnswer, setFocusAnswer] = useState()
   const [focus, setFocus] = useState(0)
   const [surveyTitle, setSurveyTitle] = useState('')
   const [questionList, setQuestionList] = useState([])
-  
+  const [answerList, setAnswerList] = useState([])
+
+  const navigate = useNavigate();
   return (
     <Container>
       <PostContainer>
@@ -137,11 +164,11 @@ function SurveyRes() {
             )}
             {focus >0 &&(
               <Icon onClick={()=>{handlefocusQuestion(-1)}} icon="material-symbols:arrow-back-ios"  style={{
-                width: '30px', height: '30px', color: 'black'}} />
+                width: '30px', height: '30px', color: 'black', cursor: 'pointer'}} />
               
             )}
-            <Icon icon="material-symbols:close"  style={{color: 'black',
-              width: '30px', height: '30px'}} />
+            <Icon onClick={()=>{setMode("read")}} icon="material-symbols:close"  style={{color: 'black',
+              width: '30px', height: '30px', cursor: 'pointer'}} />
           </Navigation>
           <span 
             style={{fontSize: '34px', textAlign: 'left',
@@ -150,7 +177,6 @@ function SurveyRes() {
           </span>
           <Options>
             {questionList[focus]?.answerList.map((answer, idx)=>{
-              {console.log(answer)}
               return (<Option
                         key={idx}
                         selected={focusAnswer === idx}
@@ -160,7 +186,7 @@ function SurveyRes() {
           </Options>
           <div style={{width:'90%', height: '1px', backgroundColor: '#ccc', marginBottom: '10px'}}></div>
           {focus + 1 < questionList.length && (
-              <NxtBtn onClick={()=>{handlefocusQuestion(1)}}>Next Question</NxtBtn>
+              <NxtBtn onClick={handleNxt}>Next Question</NxtBtn>
             )}
             {focus + 1 === questionList.length && (
               <NxtBtn onClick={handleSubmit}>Submit</NxtBtn>

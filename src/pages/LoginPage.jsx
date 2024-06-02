@@ -97,7 +97,7 @@ function LoginPage({ setIsLoggedIn }) {
         {activePage === 'signIn' ? (
           <SignInComponent setIsLoggedIn={setIsLoggedIn} />
         ) : (
-          <SignUpComponent />
+          <SignUpComponent setIsLoggedIn={setActivePage}/>
         )}
       </Frame>
     </Background>
