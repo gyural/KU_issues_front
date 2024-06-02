@@ -8,7 +8,7 @@ function CommentList({ postId, onClose }) {
     const [newComment, setNewComment] = useState("");
     
     const fetchComments = () => {
-        fetch(`http://localhost:8080/api/comments/${postId}`, {
+        fetch(`https://udr2.wild2.duckdns.org/api/comments/${postId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
@@ -35,7 +35,7 @@ function CommentList({ postId, onClose }) {
         e.preventDefault();
         if (newComment) {
             // 서버로 새로운 댓글을 POST 요청
-            fetch(`http://localhost:8080/api/comments/${postId}/create`, {
+            fetch(`https://udr2.wild2.duckdns.org/api/comments/${postId}/create`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

@@ -104,7 +104,7 @@ function UserProfile({ userid, username, nickname, year, password}) {
   const handleDeleteAccount = async () => {
   
     try {
-      const response = await axios.delete('http://localhost:8080/api/profile', {
+      const response = await axios.delete('https://udr2.wild2.duckdns.org/api/profile', {
         withCredentials: true,
       });
       if (response.status === 200) {

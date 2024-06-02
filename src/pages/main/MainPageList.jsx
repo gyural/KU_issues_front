@@ -15,7 +15,7 @@ const MainPageList = () => {
     const maxSidebarTop = 100;
 
     useEffect(() => {
-        fetch("http://localhost:8080/api/posts", {
+        fetch("https://udr2.wild2.duckdns.org/api/posts", {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

@@ -14,7 +14,7 @@ const SideBarContainer = styled.div`
     top: 80px;
     left: 0;
     height: calc(100% - 80px);
-    z-index: 1000;
+    z-index: 1000;  
     transition: top 0.3s ease;
 `;
 
