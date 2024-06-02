@@ -95,6 +95,15 @@ const MyPageCard = styled.div`
     cursor: pointer;
   }
 `
+const EditButton= styled.button`
+  width: 15%;
+  background-color: #fff;
+  border: 1px solid #000;
+  border-radius: 5px;
+  &:hover{
+    cursor: pointer;
+  }
+`
 
 
 function ProfileEditCard({ id, name, nickname, grade, password }) {
@@ -113,7 +122,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const response = await axios.get('http://localhost:8080/api/profile', {
+        const response = await axios.get('https://udr2.wild2.duckdns.org/api/profile', {
           withCredentials: true,
         });
         if (response.status === 200) {
@@ -137,7 +146,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
 
   const handleSave = async () => {
     try {
-      const response = await axios.put('http://localhost:8080/api/profile/edit', userData, {
+      const response = await axios.put('https://udr2.wild2.duckdns.org/api/profile/edit', userData, {
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -156,7 +165,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
     }
 
     try {
-      const response = await axios.put('http://localhost:8080/api/profile/edit', { password: newPassword }, {
+      const response = await axios.put('https://udr2.wild2.duckdns.org/api/profile/edit', userData, {
         withCredentials: true,
       });
       if (response.status === 200) {
@@ -180,7 +189,7 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
           <p><span className='info'>이름</span><input className='UserInfo' type='text' name='name' value={userData.name} onChange={handleChange} /></p>
           <p><span className='info'>닉네임</span><input className='UserInfo' type='text' name='nickname' value={userData.nickname} onChange={handleChange} /></p>
           <p><span className='info'>학년</span><input className='UserInfo' type='text' name='grade' value={userData.grade} onChange={handleChange} /></p>
-          <p><span className='info'>비밀번호</span><button onClick={() => setIsModalOpen(true)}>비밀번호 수정</button></p>
+          <p><span className='info'>비밀번호</span><EditButton onClick={() => setIsModalOpen(true)}>비밀번호 수정</EditButton></p>
           {/* <input className='UserInfo' type='password' name='password' value={userData.password} onChange={handleChange} */}
           {/* <p><span className='info'>학번</span><input className='UserInfo' type='text' name='userid' value={response.data.id} onChange={handleChange} readOnly /></p>
         <p><span className='info'>이름</span><input className='UserInfo' type='text' name='username' value={name} onChange={handleChange} /></p>

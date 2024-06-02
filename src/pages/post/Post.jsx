@@ -1,12 +1,41 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import img from "../../assets/createpostimg.png"
+import PageHeader from '../../component/PageHeader';
+import SideBar from '../../component/SideBar';
+
+
+const SideBarContainer = styled.div`
+    width: 15%;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    height: calc(100% - 80px);
+    z-index: 1000;
+    transition: top 0.3s ease;
+`;
+
 
 function CreatePost() {
   const [title, setTitle] = useState('');
   const [post_tag, setPostTag] = useState('');
   const [vote_content, setVoteContent] = useState('');
   const [body, setBody] = useState('');
+  const [sidebarTop, setSidebarTop] = useState(80);
+  const maxSidebarTop = 100;
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const targetTop = Math.min(Math.max(80, scrollTop), maxSidebarTop); // Ensure the sidebar stays within bounds
+      setSidebarTop(targetTop);
+
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
 
   const [subtitle, setSubtitle] = useState(-1);
   //const [image, setImage] = useState(null);
@@ -63,7 +92,7 @@ function CreatePost() {
     };
   
     try {
-      const response = await fetch('http://localhost:8080/api/posts/create', {
+      const response = await fetch('https://udr2.wild2.duckdns.org/api/posts/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -87,6 +116,10 @@ function CreatePost() {
 
   return (
     <Frame onSubmit={handleSubmit} action='' method='POST'>
+      <PageHeader />
+      <SideBarContainer style={{ top: `${sidebarTop}px` }}>
+        <SideBar />
+      </SideBarContainer>
       <IntroContainer>
         <CreateImg src={img} />
         <Intro> 게시글 작성</Intro>
@@ -163,7 +196,7 @@ export default CreatePost;
 const Frame = styled.div`
   display: flex;
   flex-direction: column;
-  width: 800px;
+  width: 100%;
   height: auto;
   margin: 0px auto;
 `

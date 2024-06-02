@@ -121,12 +121,6 @@ function SideBar() {
                     <span>설문조사</span>
                 </SideBarButton>
             </Link>
-            <Link to='/survey'>
-                <SideBarButton className={location.pathname === '/survey' ? 'active' : ''}>
-                    <IoMdCheckboxOutline size='20' />
-                    <span>설문조사 생성</span>
-                </SideBarButton>
-            </Link>
             <Link to='/reportdetail'>
                 <SideBarButton className={location.pathname === '/reportdetail' ? 'active' : ''}>
                     <TbReportAnalytics size='20' />

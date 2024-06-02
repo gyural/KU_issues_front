@@ -24,6 +24,7 @@ const ModalContent = styled.div`
 
 const ModalButton = styled.button`
   margin-top: 10px;
+  margin-right: 10px;
   padding: 10px 20px;
   border: none;
   background-color: #0D6EFD;

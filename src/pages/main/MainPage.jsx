@@ -27,7 +27,7 @@ function MainPage(props) {
     console.log(voteType);
 
     try {
-      const response = await fetch(`http://localhost:8080/api/votes/${props.postId}`, {
+      const response = await fetch(`https://udr2.wild2.duckdns.org/api/votes/${props.postId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ function MainPage(props) {
 
   const sendLike = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/posts/${props.postId}/like`, {
+      const response = await fetch(`https://udr2.wild2.duckdns.org/api/posts/${props.postId}/like`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

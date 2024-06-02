@@ -1,5 +1,5 @@
 import axios from "axios";
-const baseURL = 'http://localhost:8080'
+const baseURL = 'https://udr2.wild2.duckdns.org'
 
 /**
  * 
