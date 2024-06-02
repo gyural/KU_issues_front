@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import Modal from './Modal';
 
 const MyPageCard = styled.div`
   width: 50%;
@@ -105,7 +105,9 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
     grade: '',
     password: ''
   });
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmNewPassword, setConfirmNewPassword] = useState('');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -147,6 +149,25 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
       alert('회원정보 수정 중 오류가 발생했습니다. 다시 시도해주세요.');
     }
   };
+  const handlePasswordSave = async () => {
+    if (newPassword !== confirmNewPassword) {
+      alert('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    try {
+      const response = await axios.put('http://localhost:8080/api/profile/edit', { password: newPassword }, {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        alert('비밀번호가 성공적으로 수정되었습니다.');
+        setIsModalOpen(false);
+      }
+    } catch (error) {
+      console.error('비밀번호 수정 중 오류 발생:', error);
+      alert('비밀번호 수정 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
 
   return (
     <container>
@@ -155,11 +176,12 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
           마이페이지
         </div>
         <div className='UserInform'>
-          <p><span className='info'>학번</span><input className='UserInfo' type='text' maxLength = '10' name='id' value={userData.id}/></p>
+          <p><span className='info'>학번</span><input className='UserInfo' type='text' maxLength='10' name='id' value={userData.id} /></p>
           <p><span className='info'>이름</span><input className='UserInfo' type='text' name='name' value={userData.name} onChange={handleChange} /></p>
           <p><span className='info'>닉네임</span><input className='UserInfo' type='text' name='nickname' value={userData.nickname} onChange={handleChange} /></p>
           <p><span className='info'>학년</span><input className='UserInfo' type='text' name='grade' value={userData.grade} onChange={handleChange} /></p>
-          <p><span className='info'>비밀번호</span><input className='UserInfo' type='password' name='password' value={userData.password} onChange={handleChange} /></p>
+          <p><span className='info'>비밀번호</span><button onClick={() => setIsModalOpen(true)}>비밀번호 수정</button></p>
+          {/* <input className='UserInfo' type='password' name='password' value={userData.password} onChange={handleChange} */}
           {/* <p><span className='info'>학번</span><input className='UserInfo' type='text' name='userid' value={response.data.id} onChange={handleChange} readOnly /></p>
         <p><span className='info'>이름</span><input className='UserInfo' type='text' name='username' value={name} onChange={handleChange} /></p>
         <p><span className='info'>닉네임</span><input className='UserInfo' type='text' name='nickname' value={nickname} onChange={handleChange} /></p>
@@ -168,6 +190,21 @@ function ProfileEditCard({ id, name, nickname, grade, password }) {
         </div>
         <button onClick={handleSave}>저장</button>
       </MyPageCard>
+      {isModalOpen && (
+        <Modal
+          onClose={() => setIsModalOpen(false)}
+          onSave={handlePasswordSave}
+          onChange={(e) => {
+            if (e.target.name === 'newPassword') {
+              setNewPassword(e.target.value);
+            } else if (e.target.name === 'confirmNewPassword') {
+              setConfirmNewPassword(e.target.value);
+            }
+          }}
+          newPassword={newPassword}
+          confirmNewPassword={confirmNewPassword}
+        />
+      )}
     </container>
   )
 };

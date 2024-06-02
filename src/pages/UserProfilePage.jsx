@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import UserProfile from '../component/UserProfile';
 import getUserProfile from '../APIs/api';
-import MainPageHeader from '../component/MainPageHeader';
+import PageHeader from '../component/PageHeader';
+import SideBar from '../component/SideBar';
+import styled from 'styled-components';
+
+const SideBarContainer = styled.div`
+  width: 15%;
+  position: fixed;
+  top: 80px;
+  left: 0;
+  height: calc(100% - 80px);
+  z-index: 1000;
+  transition: top 0.3s ease;
+`;
 
 function UserProfilePage() {
   const isLoggedIn = true; // isLoggedIn을 true로 설정하여 테스트
@@ -17,10 +29,13 @@ function UserProfilePage() {
       }
     };
 
+
     if (isLoggedIn) {
       fetchUserProfile();
-      console.log('로그인')
+      console.log('로그인');
     }
+
+    
   }, []);
 
   if (!userProfile) {
@@ -29,7 +44,7 @@ function UserProfilePage() {
 
   return (
     <div>
-      <MainPageHeader />
+      <PageHeader />
       <UserProfile
         userid={userProfile.id}
         username={userProfile.name}
@@ -37,6 +52,9 @@ function UserProfilePage() {
         year={userProfile.grade}
         password={userProfile.password}
       />
+      <SideBarContainer>
+        <SideBar />
+      </SideBarContainer>
     </div>
   );
 }

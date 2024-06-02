@@ -73,7 +73,7 @@ function CreatePost() {
       });
   
       if (!response.ok) {
-        alert('글 작성 성공.')
+        alert('글 작성 실패.')
         throw new Error('글 작성 실패.');
       }
       const result = await response.json();
