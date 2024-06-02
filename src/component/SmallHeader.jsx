@@ -1,6 +1,5 @@
-// SmallHeader.jsx
 import React, { useEffect, useRef } from 'react';
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { LiaSearchSolid } from "react-icons/lia";
 import { Link } from 'react-router-dom';
 
@@ -14,7 +13,6 @@ const slide = keyframes`
     opacity: 1;
   }
 `;
-
 
 const Header = styled.div`
     width: 100%;
@@ -45,7 +43,7 @@ const SearchBar = styled.div`
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    & > div{
+    & > div {
         width: 100%;
         height: 100%;
         margin-left: 1%;
@@ -55,18 +53,18 @@ const SearchBar = styled.div`
         align-items: center;
         justify-content: space-between;
 
-        & > input{
+        & > input {
             width: 90%;
             height: 90%;
             margin-bottom: 0;
             border: none;
 
-            &:focus{
+            &:focus {
                 outline: none;
             }
         }
     }
-    & #search{
+    & #search {
         border: none;
         background-color: inherit;
         cursor: pointer;
@@ -80,7 +78,7 @@ const NavButtons = styled.div`
     align-items: center;
     justify-content: center;
 
-    & > button{
+    & > button {
         padding: 10px;
         margin-right: 8%;
         height: 67%;
@@ -94,14 +92,14 @@ const NavButtons = styled.div`
         align-items: center;
         justify-content: center;
     }
-    & > button#logout{
+    & > button#logout {
         background-color: #0D6EFD;
         color: #fff;
     }
-    & > a{
+    & > a {
         text-decoration: none;
     }
-    & > a > button{
+    & > a > button {
         padding: 10px;
         margin-right: 8%;
         height: 50%;
@@ -115,13 +113,13 @@ const NavButtons = styled.div`
         align-items: center;
         justify-content: center;
     }
-    & > a > button#logout{
+    & > a > button#logout {
         background-color: #0D6EFD;
         color: #fff;
     }
 `;
 
-function SmallHeader({ autoFocus }) {
+function SmallHeader({ autoFocus, searchTerm, onSearchChange }) {
     const inputRef = useRef(null);
 
     useEffect(() => {
@@ -141,6 +139,8 @@ function SmallHeader({ autoFocus }) {
                         ref={inputRef}
                         type='text'
                         placeholder='Search'
+                        value={searchTerm}
+                        onChange={onSearchChange}
                     />
                     <button id='search'>
                         <LiaSearchSolid size={23} />
@@ -151,7 +151,7 @@ function SmallHeader({ autoFocus }) {
                 <button id='post'>Create Post</button>
                 <Link to='/'><button id='logout'>Logout</button></Link>
             </NavButtons>
-        </Header >
+        </Header>
     );
 }
 

@@ -287,7 +287,7 @@ const ButtonContainer = styled.div`
 
 
 const getSizeContainer = (props) => {
-  if (props.voteTitleLength > 10) {
+  if (props.voteTitleLength > 7) {
     return css`
       font-size: 20px;
     `;

@@ -7,16 +7,12 @@ function CommentList({ postId, onClose }) {
     const [comments, setComments] = useState([]);
     const [newComment, setNewComment] = useState("");
     
-    // 더미 데이터로 userId 설정
-    const userId = "123";
-
-    useEffect(() => {
+    const fetchComments = () => {
         fetch(`http://localhost:8080/api/comments/${postId}`, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"
             }
-            
         })
         .then(response => response.json())
         .then(data => {
@@ -25,6 +21,10 @@ function CommentList({ postId, onClose }) {
         .catch(error => {
             console.error('Error fetching comments:', error);
         });
+    };
+
+    useEffect(() => {
+        fetchComments();
     }, [postId]);
 
     const handleInputChange = (e) => {
@@ -39,12 +39,10 @@ function CommentList({ postId, onClose }) {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    withCredentials: true,
                 },
+                credentials: 'include',
                 body: JSON.stringify({
-                    user_id: userId,
-                    post_id: postId,
-                    content: newComment,
+                    content: newComment
                 })
             })
             .then(response => {
@@ -54,8 +52,8 @@ function CommentList({ postId, onClose }) {
                 return response.json();
             })
             .then(data => {
-                // 새로운 댓글을 추가한 후 댓글 목록을 업데이트
-                setComments([...comments, data]);
+                // 댓글 생성 후 댓글 목록을 다시 가져옴
+                fetchComments();
                 setNewComment("");
             })
             .catch(error => {
@@ -71,17 +69,17 @@ function CommentList({ postId, onClose }) {
             </CloseButtonContainer>
             <CommentsContent>
                 {comments.map((comment, index) => (
-                    <Comment key={index} name={comment.User.nickname} comment={comment.content} />
+                    <Comment key={index} name={comment.User ? comment.User.nickname : "Unknown User"} comment={comment.content} />
                 ))}
             </CommentsContent>
-            <CommentForm onSubmit={handleFormSubmit}>
+            <CommentForm>
                 <CommentInput 
                     type="text" 
                     value={newComment}
                     onChange={handleInputChange}
                     placeholder="댓글"
                 />
-                <CommentSubmitButton>입력</CommentSubmitButton>
+                <CommentSubmitButton onClick={handleFormSubmit}>입력</CommentSubmitButton>
             </CommentForm>
         </CommentsContainer>
     );
