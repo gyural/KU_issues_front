@@ -10,7 +10,8 @@ const MainPageList = () => {
     const [posts, setPosts] = useState([]);
     const [searchTerm, setSearchTerm] = useState("");
     const [sidebarTop, setSidebarTop] = useState(80);
-    
+    const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
     const maxSidebarTop = 100;
 
     useEffect(() => {
@@ -30,12 +31,13 @@ const MainPageList = () => {
         .catch(error => console.error("Error fetching posts:", error));
     }, []);
 
+    // 스크롤시 발생 이벤트
     useEffect(() => {
         const handleScroll = () => {
             const scrollTop = window.scrollY;
-            const targetTop = Math.min(Math.max(80, scrollTop), maxSidebarTop); // Ensure the sidebar stays within bounds
-            setSidebarTop(targetTop);
-
+            const targetTop = Math.min(Math.max(80, scrollTop), maxSidebarTop);
+            setSidebarTop(targetTop); // 헤더의 높이 판정
+            setIsScrolled(scrollTop > 50); // 화면 50px 넘어가면 인식
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -47,31 +49,35 @@ const MainPageList = () => {
     };
 
     const filteredPosts = posts.filter(
-        (post) =>
+        (post) => 
             post.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.post_tag.toLowerCase().includes(searchTerm.toLowerCase()) ||
             post.body.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    ).reverse();
 
-    const countDownvotes = (votes) => {
-        return votes.filter(vote => vote.vote_type === "downvote").length;
-    };
-    const countUpvotes = (votes) => {
-        return votes.filter(vote => vote.vote_type === "upvote").length;
-    };
-    const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const countDownvotes = (votes) => votes.filter(vote => vote.vote_type === "downvote").length;
+    const countUpvotes = (votes) => votes.filter(vote => vote.vote_type === "upvote").length;
 
     const handleContainerClick = (e) => {
         if (e.target.closest('.header-container')) return;
         setIsSearchClicked(false);
     };
 
-
     return (
         <Container onClick={handleContainerClick}>
-            <div className="header-container" onClick={(e) => e.stopPropagation()}>
+            <HeaderContainer  onClick={(e) => e.stopPropagation()} isScrolled={isScrolled}>
                 {isSearchClicked ? (
-                    <SmallHeader autoFocus />
+                    <SmallHeader 
+                        autoFocus 
+                        searchTerm={searchTerm}
+                        onSearchChange={handleSearchChange}
+                    />
+                ) : isScrolled ? (
+                    <SmallHeader
+                        autoFocus 
+                        searchTerm={searchTerm}
+                        onSearchChange={handleSearchChange}
+                    />
                 ) : (
                     <MainPageHeader
                         onSearchClick={() => setIsSearchClicked(true)}
@@ -79,17 +85,20 @@ const MainPageList = () => {
                         onSearchChange={handleSearchChange}
                     />
                 )}
-            </div>
-            <SideBarContainer style={{ top: `${sidebarTop}px` }}>
+                <SideBarContainer style={{  }}>
                 <SideBar />
             </SideBarContainer>
-            <IntroContainer src={IntroImg} />
+            </HeaderContainer>
+            <IntroContainerWrapper>
+                <IntroContainer src={IntroImg} />
+            </IntroContainerWrapper>
             <Post>
                 {filteredPosts.map((post) => (
                     <MainPage
+                        key={post.id}
                         postId={post.id}
                         username={post.users.nickname}
-                        userId={post.user_id} // 아마 수정해야될듯?
+                        userId={post.user_id}
                         subtitle={post.post_tag}
                         vote_title={post.vote_content}
                         title={post.title}
@@ -111,40 +120,50 @@ const Container = styled.div`
     width: 100%;
     height: 100%;
 `;
+
+const HeaderContainer = styled.div`
+    width: 100%;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background-color: white;
+    opacity: ${(props) => (props.isScrolled ? "0.8" : "1")};
+    transition: all 0.3s ease;
+`;
+
 const SideBarContainer = styled.div`
     width: 15%;
     position: fixed;
-    top: 80px;
     left: 0;
     height: calc(100% - 80px);
     z-index: 1000;
     transition: top 0.3s ease;
 `;
 
+const IntroContainerWrapper = styled.div`
+    position: relative; 
+    width: 820px;
+    height: auto;
+    margin: 0px auto;
+    margin-left: 26%;
+    z-index: 1;
+`;
+
 const IntroContainer = styled.img`
-  display: flex;
-  flex-direction: column;
-  width: 820px;
-  height: auto;
-  margin : 0px auto;
-  position: sticky;
-  background-color: white;
-  top: 80px; 
-  z-index: 1;
-`
+    width: 100%;
+    height: auto;
+`;
 
 const Post = styled.div`
     width: 85%; 
     padding: 20px;
     padding-top: 0;
-    position: sticky;
-    top: 0px; 
     overflow-y: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    position: absolute;
+    position: relative;
     left: 12.5%;
     top: 30%;
 `;

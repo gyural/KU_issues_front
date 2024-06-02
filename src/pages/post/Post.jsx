@@ -73,15 +73,16 @@ function CreatePost() {
       });
   
       if (!response.ok) {
-        alert('글 작성 성공.')
+        alert('글 작성 실패.')
         throw new Error('글 작성 실패.');
       }
       const result = await response.json();
+      alert('글 작성 실패.')  
       console.log('글 작성 성공:', result);
     } catch (error) {
       console.error('에러 발생:', error);
     }
-    //window.location.href = '/mainpage';
+    window.location.href = '/mainpage';
   };
 
   return (

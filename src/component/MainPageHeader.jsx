@@ -1,5 +1,5 @@
-import React,{useState, useEffect} from 'react';
-import styled, {keyframes} from 'styled-components';
+import React, { useState, useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { RiSoundModuleLine } from "react-icons/ri";
 import { LiaSearchSolid } from "react-icons/lia";
 import { Link } from 'react-router-dom';
@@ -25,6 +25,7 @@ const Logo = styled.div`
     font-weight: 400;
     font-family: "Inknut Antiqua";
 `;
+
 const fadeIn = keyframes`
     from {
         opacity: 0;
@@ -35,6 +36,7 @@ const fadeIn = keyframes`
         transform: translateY(0);
     }
 `;
+
 const SearchBar = styled.div`
     width: 30%;
     height: 100%;
@@ -102,16 +104,19 @@ const NavButtons = styled.div`
         margin-right: 8%;
     }
 `;
+
 const LogoutButton = styled.button`
     width: 100%;
     background-color: #0D6EFD;
     color: #fff;
-`
+`;
+
 const PostButton = styled.button`
     width: 100%;
     background-color: #fff;
     color: #0D6EFD;
-`
+`;
+
 const DropdownMenu = styled.div`
     position: absolute;
     top: 83px;
@@ -126,11 +131,12 @@ const DropdownMenu = styled.div`
     overflow: hidden;
 `;
 
-const DropdownItem = styled(Link)`
+const DropdownItem = styled.div`
     padding: 10px 15px;
     display: block;
     color: #333;
     text-decoration: none;
+    cursor: pointer;
     &:hover {
         background-color: #f1f1f1;
     }
@@ -142,6 +148,12 @@ function MainPageHeader({ searchTerm, onSearchChange, onSearchClick }) {
     const toggleDropdown = () => {
         setIsDropdownVisible(!isDropdownVisible);
     };
+
+    const handleDropdownItemClick = (category) => {
+        onSearchChange({ target: { value: category } });
+        setIsDropdownVisible(false);
+    };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (event.target.closest('#Categories') === null) {
@@ -159,6 +171,7 @@ function MainPageHeader({ searchTerm, onSearchChange, onSearchClick }) {
             document.removeEventListener('click', handleClickOutside);
         };
     }, [isDropdownVisible]);
+
     return (
         <Header>
             <Logo>
@@ -173,7 +186,7 @@ function MainPageHeader({ searchTerm, onSearchChange, onSearchClick }) {
                         type='text'
                         placeholder='Search'
                         value={searchTerm}
-                        onChanged={onSearchChange}
+                        onChange={onSearchChange}
                         onFocus={onSearchClick}
                     />
                     <button id='search'>
@@ -190,10 +203,10 @@ function MainPageHeader({ searchTerm, onSearchChange, onSearchClick }) {
                 </Link>
             </NavButtons>
             <DropdownMenu isVisible={isDropdownVisible}>
-                <DropdownItem>자유게시판</DropdownItem>
-                <DropdownItem>질문게시판</DropdownItem>
-                <DropdownItem>건의사항</DropdownItem>
-                <DropdownItem>불편사항</DropdownItem>
+                <DropdownItem onClick={() => handleDropdownItemClick('자유게시판')}>자유게시판</DropdownItem>
+                <DropdownItem onClick={() => handleDropdownItemClick('질문게시판')}>질문게시판</DropdownItem>
+                <DropdownItem onClick={() => handleDropdownItemClick('건의사항')}>건의사항</DropdownItem>
+                <DropdownItem onClick={() => handleDropdownItemClick('불편사항')}>불편사항</DropdownItem>
             </DropdownMenu>
         </Header >
     );
