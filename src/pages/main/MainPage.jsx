@@ -1,51 +1,96 @@
-import React, { useState } from "react";
-import styled from 'styled-components';
+import React, { useState, useEffect } from "react";
+import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
 import DefaultImage from "../../assets/User.png"
 
 function MainPage(props) {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [agreeCount, setAgreeCount] = useState(0);
-  const [disagreeCount, setDisagreeCount] = useState(0);
+  const [agreeCount, setAgreeCount] = useState(props.agreeCount);
+  const [disagreeCount, setDisagreeCount] = useState(props.disagreeCount);
   const [selected, setSelected] = useState(null);
   const [showComments, setShowComments] = useState(false);  
+  const [update, setUpdate] = useState(false);
 
-  // 좋아요 버튼 클릭
-  const handleLikeClick = () => {
-    if (liked) { 
-      setLikeCount(likeCount - 1);
-    } else {  
-      setLikeCount(likeCount + 1);
+  useEffect(() => {
+    setLikeCount(props.likeCount || 0);
+  }, [props.likeCount]);
+
+  const sendVote = async (voteType) => {
+    const voteData = {
+      post_id: props.postId,
+      vote_type: voteType,
+      user_id: props.userId,
+    };
+    console.log(props.postId);
+    console.log(props.userId);
+    console.log(voteType);
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/votes/${props.postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(voteData),
+      });
+
+      if (!response.ok) {
+        alert('투표 전송 실패');
+        throw new Error('투표 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('투표 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
     }
-    setLiked(!liked);  
+  };
+
+  const sendLike = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/posts/${props.postId}/like`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        alert('좋아요 전송 실패');
+        throw new Error('좋아요 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('좋아요 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
   };
 
   // 찬성 버튼 클릭
   const handleAgreeClick = () => {
-    if (selected === 'agree') {
-      setAgreeCount(agreeCount - 1);
-      setSelected(null);
+    if (selected === 'agree' || selected === 'disagree') {
+      return; 
     } else {
-      if (selected === 'disagree') {
-        setDisagreeCount(disagreeCount - 1);
-      }
       setAgreeCount(agreeCount + 1);
       setSelected('agree');
+      sendVote('upvote');
     }
   };
 
-  // 반대 버튼 클릭 시 실행되는 함수
+  // 반대 버튼 클릭
   const handleDisagreeClick = () => {
-    if (selected === 'disagree') {
-      setDisagreeCount(disagreeCount - 1);
-      setSelected(null);
+    if (selected === 'disagree' || selected ==='agree') {
+      return
     } else {
-      if (selected === 'agree') {
-        setAgreeCount(agreeCount - 1);
-      }
       setDisagreeCount(disagreeCount + 1);
       setSelected('disagree');
+      sendVote('downvote');
     }
   };
 
@@ -79,14 +124,14 @@ function MainPage(props) {
 */
   // 찬성 반대 퍼센트
   const renderButton = () => {
-    // type == 1일때 실행(투표)
-    if (props.type === 1) {
+    if (props.vote_title) {
       const totalCount = agreeCount + disagreeCount;
       const agreePercent = totalCount > 0 ? (agreeCount / totalCount) * 100 : 0;
       const disagreePercent = totalCount > 0 ? (disagreeCount / totalCount) * 100 : 0;
 
       return (
-        <ButtonContainer>
+        <ButtonContainer key={update}>
+          <VoteTitle voteTitleLength={props.vote_title.length}>{props.vote_title}</VoteTitle>
           <Button onClick={handleAgreeClick} selected={selected === 'agree'}>찬 성</Button>
           <Percent>{agreePercent.toFixed(1)}%</Percent>
           <Button onClick={handleDisagreeClick} selected={selected === 'disagree'}>반 대</Button>
@@ -94,7 +139,8 @@ function MainPage(props) {
         </ButtonContainer>
       );
     } // type == 2일때 실행(사진)
-    else if (props.type === 2) {
+    /*
+     else if (props.type === 2) {
       return (
         <ButtonContainer>
           <Image>
@@ -103,8 +149,17 @@ function MainPage(props) {
         </ButtonContainer>
       );
     }
+    */
   };
 
+  // 좋아요 버튼 클릭
+  const handleLikeClick = () => {
+    if (!liked) {
+      setLikeCount(likeCount + 1);
+      setLiked(true);
+      sendLike();
+    }
+  };
   // 댓글 창 표시
   const OpenComments = () => {
     setShowComments(!showComments);
@@ -234,14 +289,14 @@ const Divider = styled.div`
 // 내용 및 버튼 컨테이너
 const ContentContainer = styled.div`
   display : flex;
-  padding-top: 70px;
+  padding-top: 50px;
   padding-left: 40px;
   margin-bottom: 20px;
 `;
 
 // 내용
 const Text = styled.div`
-  width : 600px;
+  width : 70%;
   font-size : 20px;
   line-height: 1.5;
   padding-right : 40px;
@@ -249,17 +304,41 @@ const Text = styled.div`
 
 // 버튼 컨테이너
 const ButtonContainer = styled.div`
-  flex: 1;
+  display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  margin-right: 20px;
+  height: 100%;
+  width: 30%;
+  margin-top: 10px;
+  margin-right: 0px;
+`;
+
+
+const getSizeContainer = (props) => {
+  if (props.voteTitleLength > 10) {
+    return css`
+      font-size: 20px;
+    `;
+  } else {
+    return css`
+      font-size: 30px;
+    `;
+  }
+};
+
+const VoteTitle = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  height: 50px;
+  border: none;
+  font-weight: bold;
+  ${(props) => getSizeContainer(props)}
 `;
 
 // 찬성 반대 버튼
 const Button = styled.button`
   padding: 10px 80px;
-  margin: 10px 0px;
-  margin-right: 20px;
+  margin: 10px auto;
   font-size: 16px;
   border-radius: 20px;
   border: 1px solid #ccc;
@@ -276,6 +355,7 @@ const Percent = styled.div`
 `;
 
 // 이미지 설정
+/*
 const Image = styled.div`
   padding: 0; 
   width: 200px; 
@@ -290,6 +370,7 @@ const Image = styled.div`
     border-radius: 10px;
   }
 `;
+*/
 
 // 하단 좋아요 및 댓글 컨테이너
 const Footer = styled.div`

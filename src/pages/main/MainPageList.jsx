@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import MainPage from "./MainPage";
-import Search from "./Search";
 import MainPageHeader from "../../component/MainPageHeader";
+import IntroImg from "../../assets/mainpageimg2.png";
 
 const MainPageList = () => {
     const [posts, setPosts] = useState([]);
@@ -36,20 +36,31 @@ const MainPageList = () => {
             post.body.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const countDownvotes = (votes) => {
+        return votes.filter(vote => vote.vote_type === "downvote").length;
+    };
+    const countUpvotes = (votes) => {
+        return votes.filter(vote => vote.vote_type === "upvote").length;
+    };
+
     return (
         <Container>
             <MainPageHeader searchTerm={searchTerm} onSearchChange={handleSearchChange}/>
+            <IntroContainer src={IntroImg}/>
             <Post>
                 {filteredPosts.map((post) => (
                     <MainPage
-                        key={post.post_id}
-                        postId={post.post_id}
-                        username={post.user_id}
+                        postId={post.id}
+                        username={post.users.nickname}
+                        userId={post.user_id} // 아마 수정해야될듯?
                         subtitle={post.post_tag}
+                        vote_title={post.vote_content}
                         title={post.title}
                         text={post.body}
-                        type={post.type}
-                        image={post.image}
+                        userLikes={post.likes.user_id}
+                        likeCount={post.likes.length}
+                        disagreeCount={countDownvotes(post.votes)}
+                        agreeCount={countUpvotes(post.votes)}
                     />
                 ))}
             </Post>
@@ -62,11 +73,29 @@ export default MainPageList;
 const Container = styled.div`
     width: 100%;
     height: 100%;
+    width: 100%;
+    height: 100%;
 `;
 
+const IntroContainer = styled.img`
+  display: flex;
+  flex-direction: column;
+  width: 820px;
+  height: auto;
+  margin : 0px auto;
+  margin-left: 33%;
+  position: sticky;
+  background-color: white;
+  top: 80px; 
+  z-index: 1;
+`  
+
 const Post = styled.div`
-    margin-left: 15%; 
+    margin-left: 20%; 
     width: 85%; 
     padding: 20px;
+    padding-top: 0;
+    position: sticky;
+    top: 0px; 
     overflow-y: auto;
 `;

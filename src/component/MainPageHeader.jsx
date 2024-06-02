@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { RiSoundModuleLine } from "react-icons/ri";
 import { LiaSearchSolid } from "react-icons/lia";
+import { Link } from 'react-router-dom';
 
 const Header = styled.div`
     width: 100%;
