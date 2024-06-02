@@ -14,58 +14,21 @@ const MainPageList = () => {
     const maxSidebarTop = 100;
 
     useEffect(() => {
-        const mockPosts = [
-            {
-                id: 1,
-                users: { nickname: "User1" },
-                user_id: 1,
-                post_tag: "Tag1",
-                vote_content: "Vote Content 1",
-                title: "Title 1",
-                body: "Body content for post 1",
-                votes: [
-                    { vote_type: "upvote" },
-                    { vote_type: "upvote" },
-                    { vote_type: "downvote" }
-                ]
-            },
-            {
-                id: 2,
-                users: { nickname: "User2" },
-                user_id: 2,
-                post_tag: "Tag2",
-                vote_content: "Vote Content 2",
-                title: "Title 2",
-                body: "Body content for post 2",
-                votes: [
-                    { vote_type: "upvote" },
-                    { vote_type: "downvote" },
-                    { vote_type: "downvote" }
-                ]
+        fetch("http://localhost:8080/api/posts", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
             }
-            // Add more mock posts as needed
-        ];
-
-        // Set the mock posts data
-        setPosts(mockPosts);
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch posts');
+            }
+            return response.json();
+        })
+        .then(data => setPosts(data))
+        .catch(error => console.error("Error fetching posts:", error));
     }, []);
-
-    // useEffect(() => {
-    //     fetch("http://localhost:8080/api/posts", {
-    //         method: "GET",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         }
-    //     })
-    //     .then(response => {
-    //         if (!response.ok) {
-    //             throw new Error('Failed to fetch posts');
-    //         }
-    //         return response.json();
-    //     })
-    //     .then(data => setPosts(data))
-    //     .catch(error => console.error("Error fetching posts:", error));
-    // }, []);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -131,7 +94,8 @@ const MainPageList = () => {
                         vote_title={post.vote_content}
                         title={post.title}
                         text={post.body}
-
+                        userLikes={post.likes.user_id}
+                        likeCount={post.likes.length}
                         disagreeCount={countDownvotes(post.votes)}
                         agreeCount={countUpvotes(post.votes)}
                     />

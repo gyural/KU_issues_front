@@ -68,7 +68,7 @@ function CreatePost() {
         headers: {
           'Content-Type': 'application/json',
         },
-        credentials: 'include', // 쿠키를 포함하도록 설정
+        credentials: 'include',
         body: JSON.stringify(PostData),
       });
   

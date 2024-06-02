@@ -1,5 +1,4 @@
-//메인페이지
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
 import DefaultImage from "../../assets/User.png"
@@ -13,11 +12,15 @@ function MainPage(props) {
   const [showComments, setShowComments] = useState(false);  
   const [update, setUpdate] = useState(false);
 
+  useEffect(() => {
+    setLikeCount(props.likeCount || 0);
+  }, [props.likeCount]);
+
   const sendVote = async (voteType) => {
     const voteData = {
       post_id: props.postId,
       vote_type: voteType,
-      user_id: props.userID,
+      user_id: props.userId,
     };
     console.log(props.postId);
     console.log(props.userID);
@@ -46,10 +49,34 @@ function MainPage(props) {
     }
   };
 
+  const sendLike = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/posts/${props.postId}/like`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        alert('좋아요 전송 실패');
+        throw new Error('좋아요 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('좋아요 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+  };
+
   // 찬성 버튼 클릭
   const handleAgreeClick = () => {
-    if (selected === 'agree' || selected === 'disagree') {
-      return; 
+    if (selected === 'agree') {
+      setAgreeCount(agreeCount - 1);
+      setSelected(null);
     } else {
       setAgreeCount(agreeCount + 1);
       setSelected('agree');
@@ -100,14 +127,12 @@ function MainPage(props) {
 
   // 좋아요 버튼 클릭
   const handleLikeClick = () => {
-    if (liked) {
-      setLikeCount(likeCount - 1);
-    } else {
+    if (!liked) {
       setLikeCount(likeCount + 1);
+      setLiked(true);
+      sendLike();
     }
-    setLiked(!liked);
   };
-
   // 댓글 창 표시
   const OpenComments = () => {
     setShowComments(!showComments);
