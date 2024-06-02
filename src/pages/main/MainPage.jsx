@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
 import DefaultImage from "../../assets/User.png"
@@ -12,14 +12,18 @@ function MainPage(props) {
   const [showComments, setShowComments] = useState(false);  
   const [update, setUpdate] = useState(false);
 
+  useEffect(() => {
+    setLikeCount(props.likeCount || 0);
+  }, [props.likeCount]);
+
   const sendVote = async (voteType) => {
     const voteData = {
       post_id: props.postId,
       vote_type: voteType,
-      user_id: props.userID,
+      user_id: props.userId,
     };
     console.log(props.postId);
-    
+    console.log(props.userId);
     console.log(voteType);
 
     try {
@@ -45,30 +49,45 @@ function MainPage(props) {
     }
   };
 
+  const sendLike = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/posts/${props.postId}/like`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        alert('좋아요 전송 실패');
+        throw new Error('좋아요 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('좋아요 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
+  };
+
   // 찬성 버튼 클릭
   const handleAgreeClick = () => {
-    if (selected === 'agree') {
-      setAgreeCount(agreeCount - 1);
-      setSelected(null);
+    if (selected === 'agree' || selected === 'disagree') {
+      return; 
     } else {
-      if (selected === 'disagree') {
-        setDisagreeCount(disagreeCount - 1);
-      }
       setAgreeCount(agreeCount + 1);
       setSelected('agree');
       sendVote('upvote');
     }
   };
 
-  // 반대 버튼 클릭 시 실행되는 함수
+  // 반대 버튼 클릭
   const handleDisagreeClick = () => {
-    if (selected === 'disagree') {
-      setDisagreeCount(disagreeCount - 1);
-      setSelected(null);
+    if (selected === 'disagree' || selected ==='agree') {
+      return
     } else {
-      if (selected === 'agree') {
-        setAgreeCount(agreeCount - 1);
-      }
       setDisagreeCount(disagreeCount + 1);
       setSelected('disagree');
       sendVote('downvote');
@@ -107,14 +126,12 @@ function MainPage(props) {
 
   // 좋아요 버튼 클릭
   const handleLikeClick = () => {
-    if (liked) {
-      setLikeCount(likeCount - 1);
-    } else {
+    if (!liked) {
       setLikeCount(likeCount + 1);
+      setLiked(true);
+      sendLike();
     }
-    setLiked(!liked);
   };
-
   // 댓글 창 표시
   const OpenComments = () => {
     setShowComments(!showComments);

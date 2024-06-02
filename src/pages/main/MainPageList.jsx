@@ -57,7 +57,8 @@ const MainPageList = () => {
                         vote_title={post.vote_content}
                         title={post.title}
                         text={post.body}
-                        
+                        userLikes={post.likes.user_id}
+                        likeCount={post.likes.length}
                         disagreeCount={countDownvotes(post.votes)}
                         agreeCount={countUpvotes(post.votes)}
                     />
