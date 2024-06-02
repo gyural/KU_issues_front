@@ -1,20 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { IoHomeOutline } from "react-icons/io5";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import { TbReportAnalytics } from "react-icons/tb";
 import { FaRegUserCircle } from "react-icons/fa";
 import { MdLogout } from "react-icons/md";
+import { IoSchoolSharp } from "react-icons/io5";
 
-
+const Logo = styled.div`
+    width: 15%;
+    height: 40px;
+    font-size: 20px;
+    margin-left: -5%;
+    background-color: #0d6efd;
+    color: #fff;
+    font-weight: 600;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 5%;
+`
 
 const MainSideBar = styled.div`
     width: 15%;
     height: 80%;
-    margin-left: 1%;
     text-align: center;
-    box-shadow: 1px 0px 1px #bbbbbb;
+    box-shadow: 1px 1px 1px #bbbbbb, -1px -1px 1px #bbbbbb;
     position: absolute;
     border-radius: 10px;
     
@@ -64,12 +77,13 @@ const SideBarButton = styled.button`
     border: none;
     border-radius: 10px;
     display: flex;
+    margin-bottom: 3%;
     
     cursor: pointer;
     & > svg{
         color: #777;
     }
-    &:hover{
+    &:hover, &.active {
         background-color: #0d6efd;
         color: #fff;
         & > svg{
@@ -84,53 +98,55 @@ const SideBarButton = styled.button`
         font-weight: 550;
     }
 `
+
 function SideBar() {
+    const location = useLocation();
+
     return (
-        <div>
-            <MainSideBar>
-                <SideBarHeader>
-                    <span>Menu</span>
-                </SideBarHeader>
-                <hr />
-                <Link to='/mainpage'>
-                    <SideBarButton>
-                        <IoHomeOutline size='20'/>
-                        <span>메인 페이지</span>
-                    </SideBarButton>
-                </Link>
-                <Link to='/survey'>
-                    <SideBarButton>
-                        <IoMdCheckboxOutline size='20'/>
-                        <span>설문조사</span>
-                    </SideBarButton>
-                </Link>
-                <Link to='/reportpage'>
-                    <SideBarButton>
-                        <TbReportAnalytics size='20'/>
-                        <span>분석 및 보고</span>
-                    </SideBarButton>
-                </Link>
-                <Link to='/myprofile'>
-                    <SideBarButton>
-                        <FaRegUserCircle size='20'/>
-                        <span>내 정보 페이지</span>
-                    </SideBarButton>
-                </Link>
-                <hr className='bottonHr' />
-                <Link to='/login'>
-                    <SideBarButton>
-                        <MdLogout size='20'/>
-                        <span>학교 홈페이지</span>
-                    </SideBarButton>
-                </Link>
-                <Link to='/login'>
-                    <SideBarButton>
-                        <MdLogout size='20'/>
-                        <span>로그아웃</span>
-                    </SideBarButton>
-                </Link>
-            </MainSideBar>
-        </div>
+        <MainSideBar>
+            <SideBarHeader>
+                <Logo>KU</Logo>
+                <span>Menu</span>
+            </SideBarHeader>
+            <hr />
+            <Link to='/mainpage'>
+                <SideBarButton className={location.pathname === '/mainpage' ? 'active' : ''}>
+                    <IoHomeOutline size='20' />
+                    <span>메인 페이지</span>
+                </SideBarButton>
+            </Link>
+            <Link to='/survey'>
+                <SideBarButton className={location.pathname === '/survey' ? 'active' : ''}>
+                    <IoMdCheckboxOutline size='20' />
+                    <span>설문조사</span>
+                </SideBarButton>
+            </Link>
+            <Link to='/reportpage'>
+                <SideBarButton className={location.pathname === '/reportpage' ? 'active' : ''}>
+                    <TbReportAnalytics size='20' />
+                    <span>분석 및 보고</span>
+                </SideBarButton>
+            </Link>
+            <Link to='/myprofile'>
+                <SideBarButton className={location.pathname === '/myprofile' ? 'active' : ''}>
+                    <FaRegUserCircle size='20' />
+                    <span>내 정보 페이지</span>
+                </SideBarButton>
+            </Link>
+            <Link to='https://portal.korea.ac.kr/front/Intro.kpd'>
+                <SideBarButton>
+                    <IoSchoolSharp size='20' />
+                    <span>학교 홈페이지</span>
+                </SideBarButton>
+            </Link>
+            <hr className='bottonHr' />
+            <Link to='/'>
+                <SideBarButton className={location.pathname === '/' ? 'active' : ''}>
+                    <MdLogout size='20' />
+                    <span>로그아웃</span>
+                </SideBarButton>
+            </Link>
+        </MainSideBar>
     )
 }
 
