@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import MainPageHeader from '../../component/MainPageHeader';
+import SurveyHeader from '../../component/SurveyHeader';
 import SmallHeader from '../../component/SmallHeader';
 import SurveyList from '../survey/SurveyList';
 import SurveyRes from './surveyRes';
@@ -56,7 +56,7 @@ function SurveyResPage() {
         {isSearchClicked ? (
           <SmallHeader autoFocus />
         ) : (
-          <MainPageHeader
+          <SurveyHeader
             onSearchClick={() => setIsSearchClicked(true)}
             searchTerm={searchTerm}
             onSearchChange={handleSearchChange}

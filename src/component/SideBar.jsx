@@ -39,7 +39,7 @@ const MainSideBar = styled.div`
         border-color: #eeeeee;
     }
     & > hr.bottonHr{
-        margin-top: 100%;
+        margin-top: 80%;
     }
     & > a{
         text-decoration: none;
