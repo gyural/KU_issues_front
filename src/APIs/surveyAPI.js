@@ -91,4 +91,24 @@ const answerSurvey = async (surveyID, respondent, answerList) => {
     return false;
   });
 }
-export {createSurvey, getAllSurvey, getSurveyOne, answerSurvey}
+
+const getReport = async(surveyID)=>{
+  const requestURL = baseURL + '/api/survey/report/' + surveyID
+
+  return await axios.get(requestURL)
+  .then(
+    res=>{
+      if(res.status === 200){
+        return res.data
+      }else{
+        return false
+      }
+    })
+    .catch(
+      err=>{
+        console.log(err)
+        return false
+      }
+    )
+}
+export {createSurvey, getAllSurvey, getSurveyOne, answerSurvey, getReport}
