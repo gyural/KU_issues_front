@@ -115,20 +115,26 @@ function SideBar() {
                     <span>메인 페이지</span>
                 </SideBarButton>
             </Link>
-            <Link to='/survey'>
-                <SideBarButton className={location.pathname === '/survey' ? 'active' : ''}>
+            <Link to='/surveyRes'>
+                <SideBarButton className={location.pathname === '/surveyRes' ? 'active' : ''}>
                     <IoMdCheckboxOutline size='20' />
                     <span>설문조사</span>
                 </SideBarButton>
             </Link>
-            <Link to='/reportpage'>
-                <SideBarButton className={location.pathname === '/reportpage' ? 'active' : ''}>
+            <Link to='/survey'>
+                <SideBarButton className={location.pathname === '/survey' ? 'active' : ''}>
+                    <IoMdCheckboxOutline size='20' />
+                    <span>설문조사 생성</span>
+                </SideBarButton>
+            </Link>
+            <Link to='/reportdetail'>
+                <SideBarButton className={location.pathname === '/reportdetail' ? 'active' : ''}>
                     <TbReportAnalytics size='20' />
                     <span>분석 및 보고</span>
                 </SideBarButton>
             </Link>
             <Link to='/myprofile'>
-                <SideBarButton className={location.pathname === '/myprofile' ? 'active' : ''}>
+                <SideBarButton className={(location.pathname === '/myprofile' || location.pathname === '/profileedit') ? 'active' : ''}>
                     <FaRegUserCircle size='20' />
                     <span>내 정보 페이지</span>
                 </SideBarButton>

@@ -1,9 +1,22 @@
-import React, {useState, useEffect} from 'react'
-import MainHeader from "../../component/GuestHeader";
+import React, { useState, useEffect } from 'react'
+import PageHeader from '../../component/PageHeader';
 import Reportdetail from './reportdetail';
 import { getAllSurvey } from '../../APIs/surveyAPI';
 import styled from 'styled-components';
 import { Icon } from '@iconify/react';
+import SideBar from '../../component/SideBar';
+import { TbReportAnalytics } from "react-icons/tb";
+
+
+const SideBarContainer = styled.div`
+    width: 15%;
+    position: fixed;
+    top: 80px;
+    left: 0;
+    height: calc(100% - 80px);
+    z-index: 1000;
+    transition: top 0.3s ease;
+`;
 
 const Container = styled.div`
     width: 100%;
@@ -16,6 +29,7 @@ const Container = styled.div`
 `
 
 const PostContainer = styled.div`
+  z-index: 100001;
   position: relative;
   width: 740px;
   height: auto;
@@ -75,17 +89,29 @@ const NxtBtn = styled.button`
 `
 
 function Reportpage() {
+  const [sidebarTop, setSidebarTop] = useState(80);
+  const maxSidebarTop = 100;
+
   useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const targetTop = Math.min(Math.max(80, scrollTop), maxSidebarTop); // Ensure the sidebar stays within bounds
+      setSidebarTop(targetTop);
+
+    };
     const fetchData = async () => {
       const surveyList = await getAllSurvey();
       if (surveyList) {
         setSurveyList(surveyList);
       }
     };
+
     fetchData();
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const handelDetail = (id) =>{
+  const handelDetail = (id) => {
     setSurveyID(id)
     setMode('detail')
   }
@@ -94,32 +120,38 @@ function Reportpage() {
   const [surveyList, setSurveyList] = useState([])
   return (
     <>
-      <MainHeader></MainHeader>
-      <div style={{fontSize: '34px', fontWeight: '700'
-        , width: '164px', margin: '34px auto 10px'
-      }}>분석및 보고</div>
+      <PageHeader />
+      <SideBarContainer style={{ top: `${sidebarTop}px` }}>
+        <SideBar />
+      </SideBarContainer>
+        <div style={{
+          fontSize: '50px', fontWeight: '700'
+          , width: '30%', margin: '34px auto 10px', textAlign: 'center',
+          display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+          marginBottom: '3%'
+        }}><TbReportAnalytics size='80' />분석및 보고</div>
       <>
-        {mode==='list' &&(
-        <>
+        {mode === 'list' && (
+          <>
 
-          {surveyList.map((survey)=>{
-            return(
-            <PostContainer>
-              <PostWrapper>
-                <span style={{fontSize: '34px', marginBottom: '32px', fontWeight: 700}}>{survey.title}</span>
-                <span style={{marginBottom: '22px', color: '#181818'}}>{survey.description}</span>
-                <div style={{width:'90%', height: '1px', backgroundColor: '#ccc', marginBottom: '10px'}}></div>
-                <NxtBtn onClick={()=>{handelDetail(Number(survey.id))}}>결과 보기</NxtBtn>
-              </PostWrapper>
-            </PostContainer>)
+            {surveyList.map((survey) => {
+              return (
+                <PostContainer>
+                  <PostWrapper>
+                    <span style={{ fontSize: '34px', marginBottom: '32px', fontWeight: 700 }}>{survey.title}</span>
+                    <span style={{ marginBottom: '22px', color: '#181818' }}>{survey.description}</span>
+                    <div style={{ width: '90%', height: '1px', backgroundColor: '#ccc', marginBottom: '10px' }}></div>
+                    <NxtBtn onClick={() => { handelDetail(Number(survey.id)) }}>결과 보기</NxtBtn>
+                  </PostWrapper>
+                </PostContainer>)
             })}
-        
-        </>
+
+          </>
         )}
 
-        {mode==='detail' &&(<Reportdetail surveyID={surveyID} setMode={setMode}></Reportdetail>)}
+        {mode === 'detail' && (<Reportdetail surveyID={surveyID} setMode={setMode}></Reportdetail>)}
       </>
-    
+
     </>
   )
 }

@@ -5,6 +5,8 @@ import ObjectiveQuestion from './ObjectiveQuestion';
 import SubjectiveQuestion from './SubjectiveQuestion';
 import { Icon } from '@iconify/react';
 import { createSurvey } from '../APIs/surveyAPI';
+import { IoMdCheckboxOutline } from "react-icons/io";
+
 const Container = styled.div`
     width: 100%;
     padding: 44px 24px;
@@ -163,7 +165,9 @@ function Survey() {
     
     return (
         <Container>
-            <div style={{textAlign:'center', fontSize: '24px', fontWeight: '700', marginBottom: '14px'}}>설문 생성</div>
+            <div style={{textAlign:'center', fontSize: '50px', fontWeight: '700', marginBottom: '14px', display:'flex', alignItems:'center', justifyContent:'center',
+            marginBottom:'3%'
+             }}><IoMdCheckboxOutline size='80' />설문 생성</div>
             <PostContainer>
                 <PostWrapper>
                     <SurveyHeader>

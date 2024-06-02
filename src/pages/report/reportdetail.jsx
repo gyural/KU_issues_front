@@ -3,10 +3,13 @@ import styled, {keyframes} from 'styled-components';
 import { getReport } from '../../APIs/surveyAPI';
 
 const Container = styled.div`
-  width: 100%;
-  padding: 140px 0;
+  width: 60%;
+  padding: 0 0;
   display: flex;
+  align-items: center;
+  margin-left: 20%;
   justify-content: center;
+  z-index: 1000;
 `
 const PostContainer = styled.div`
   position: relative;
