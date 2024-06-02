@@ -25,7 +25,6 @@ const AppRouter = ({ setIsLoggedIn }) => {
         <Route path='/surveyRes' element={<SurveyResPage />}/>
         <Route path='/test' element={<Test />} />
         <Route path='/reportdetail' element={<Reportpage />} />
-
         <Route path='/answerResult' element={<AnswerResult />} />
       </Routes>
     </Router>

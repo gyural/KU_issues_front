@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IoIosArrowForward } from "react-icons/io";
 import axios from 'axios';
 
@@ -96,21 +96,27 @@ const MyPageCard = styled.div`
     cursor: pointer;
   }
 `
-const handleDeleteAccount = async () => {
-  try {
-    const response = await axios.delete('http://localhost:8080/api/profile', {
-      withCredentials: true,
-    });
-    if (response.status === 200) {
-      alert('회원탈퇴가 성공적으로 처리되었습니다.');
-    }
-  } catch (error) {
-    console.error('회원탈퇴 중 오류 발생:', error);
-    alert('회원탈퇴 중 오류가 발생했습니다. 다시 시도해주세요.');
-  }
-};
+
 
 function UserProfile({ userid, username, nickname, year, password}) {
+  const navigate = useNavigate();
+
+  const handleDeleteAccount = async () => {
+  
+    try {
+      const response = await axios.delete('http://localhost:8080/api/profile', {
+        withCredentials: true,
+      });
+      if (response.status === 200) {
+        alert('회원탈퇴가 성공적으로 처리되었습니다.');
+        navigate('/')
+      }
+    } catch (error) {
+      console.error('회원탈퇴 중 오류 발생:', error);
+      alert('회원탈퇴 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+  };
+
   return (
     <container>
       <MyPageCard>

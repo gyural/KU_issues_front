@@ -1,25 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled, { css } from 'styled-components';
 import CommentList from "../comment/CommentList";
 import DefaultImage from "../../assets/User.png"
 
-
 function MainPage(props) {
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
-  const [agreeCount, setAgreeCount] = useState(0);
-  const [disagreeCount, setDisagreeCount] = useState(0);
+  const [agreeCount, setAgreeCount] = useState(props.agreeCount);
+  const [disagreeCount, setDisagreeCount] = useState(props.disagreeCount);
   const [selected, setSelected] = useState(null);
   const [showComments, setShowComments] = useState(false);  
+  const [update, setUpdate] = useState(false);
 
-  // 좋아요 버튼 클릭
-  const handleLikeClick = () => {
-    if (liked) { 
-      setLikeCount(likeCount - 1);
-    } else {  
-      setLikeCount(likeCount + 1);
+  useEffect(() => {
+    setLikeCount(props.likeCount || 0);
+  }, [props.likeCount]);
+
+  const sendVote = async (voteType) => {
+    const voteData = {
+      post_id: props.postId,
+      vote_type: voteType,
+      user_id: props.userId,
+    };
+    console.log(props.postId);
+    console.log(props.userID);
+    console.log(voteType);
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/votes/${props.postId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },  
+        credentials: 'include',
+        body: JSON.stringify(voteData),
+      });
+
+      if (!response.ok) {
+        alert('투표 전송 실패');
+        throw new Error('투표 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('투표 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
     }
-    setLiked(!liked);  
+  };
+
+  const sendLike = async () => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/posts/${props.postId}/like`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      });
+
+      if (!response.ok) {
+        alert('좋아요 전송 실패');
+        throw new Error('좋아요 전송 실패.');
+      }
+
+      const result = await response.json();
+      console.log('좋아요 전송 성공:', result);
+      setUpdate(!update);
+    } catch (error) {
+      console.error('에러 발생:', error);
+    }
   };
 
   // 찬성 버튼 클릭
@@ -28,67 +78,32 @@ function MainPage(props) {
       setAgreeCount(agreeCount - 1);
       setSelected(null);
     } else {
-      if (selected === 'disagree') {
-        setDisagreeCount(disagreeCount - 1);
-      }
       setAgreeCount(agreeCount + 1);
       setSelected('agree');
+      sendVote('upvote');
     }
   };
 
-  // 반대 버튼 클릭 시 실행되는 함수
+  // 반대 버튼 클릭
   const handleDisagreeClick = () => {
-    if (selected === 'disagree') {
-      setDisagreeCount(disagreeCount - 1);
-      setSelected(null);
+    if (selected === 'disagree' || selected ==='agree') {
+      return
     } else {
-      if (selected === 'agree') {
-        setAgreeCount(agreeCount - 1);
-      }
       setDisagreeCount(disagreeCount + 1);
       setSelected('disagree');
+      sendVote('downvote');
     }
   };
-
-  /*const handleAgreeSubmit = async (event) => {
-    event.preventDefault(); // 값이 제대로 제출되는지 확인
-
-    console.log("유저 : ", props.username);
-    console.log("")
-    const PostData = {
-        };
-
-    try {
-        const response = await fetch('http://localhost:8080/api/posts/create', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(PostData),
-        });
-
-        if (!response.ok) {
-            alert('글 작성 성공.')
-            throw new Error('글 작성 실패.');
-        }
-        const result = await response.json();
-        console.log('글 작성 성공:', result);
-    } catch (error) {
-        console.error('에러 발생:', error);
-    }
-};
-*/
 
   // 찬성 반대 퍼센트
   const renderButton = () => {
-    
-    if (props.vote_title) {  // 왜인지 모름
+    if (props.vote_title) {
       const totalCount = agreeCount + disagreeCount;
       const agreePercent = totalCount > 0 ? (agreeCount / totalCount) * 100 : 0;
       const disagreePercent = totalCount > 0 ? (disagreeCount / totalCount) * 100 : 0;
-      
+
       return (
-        <ButtonContainer>
+        <ButtonContainer key={update}>
           <VoteTitle voteTitleLength={props.vote_title.length}>{props.vote_title}</VoteTitle>
           <Button onClick={handleAgreeClick} selected={selected === 'agree'}>찬 성</Button>
           <Percent>{agreePercent.toFixed(1)}%</Percent>
@@ -110,6 +125,14 @@ function MainPage(props) {
     */
   };
 
+  // 좋아요 버튼 클릭
+  const handleLikeClick = () => {
+    if (!liked) {
+      setLikeCount(likeCount + 1);
+      setLiked(true);
+      sendLike();
+    }
+  };
   // 댓글 창 표시
   const OpenComments = () => {
     setShowComments(!showComments);
@@ -119,6 +142,7 @@ function MainPage(props) {
   const CloseComments = () => {
     setShowComments(!showComments);
   };
+
   return (
     <PostContainer>
       <Header>

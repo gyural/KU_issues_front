@@ -91,7 +91,7 @@ const InputDiv = styled.div`
   border-radius: 1rem;
   text-align: center;
   /* opacity: 0.7; */
-
+  overflow: hidden;
   & > input{
     background-color: inherit;
     /* opacity: inherit; */
@@ -99,7 +99,7 @@ const InputDiv = styled.div`
 `
 
 
-function SignUpComponent() {
+function SignUpComponent({ setActivePage }) {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [passwordCheck, setPasswordCheck] = useState('');
@@ -149,7 +149,10 @@ function SignUpComponent() {
             }
             const result = await response.json();
             console.log('회원가입 성공:', result);
-            alert('회원가입에 성공했습니다.')
+            alert('회원가입에 성공했습니다.');
+            console.log("there");
+            setActivePage('signIn');
+            console.log("here");
         } catch (error) {
             console.error('에러 발생:', error);
             alert("회원가입에 실패했습니다.")
@@ -234,17 +237,17 @@ function SignUpComponent() {
                     </InputDiv>
                 </div>
                 <div id='logincomp'>
-                <IdLabel>
-                    <div className='id'>GRADE</div>
-                </IdLabel>
-                <Selector>
-                    <select value={grade} onChange={onSelect}>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                        <option value='4'>4</option>
-                    </select>
-                </Selector>
+                    <IdLabel>
+                        <div className='id'>GRADE</div>
+                    </IdLabel>
+                    <Selector>
+                        <select value={grade} onChange={onSelect}>
+                            <option value='1'>1</option>
+                            <option value='2'>2</option>
+                            <option value='3'>3</option>
+                            <option value='4'>4</option>
+                        </select>
+                    </Selector>
                 </div>
                 <button type="submit" className='submit'>SIGN UP</button>
             </LoginForm>

@@ -49,28 +49,29 @@ function CreatePost() {
 
   const handleSubmit = async (event) => {
     event.preventDefault(); // 값이 제대로 제출되는지 확인
-
+  
     console.log('Title:', title);
     console.log('Body:', body);
     console.log('PostTag:', post_tag);
     console.log('VoteContent: ', vote_content);
-
+  
     const PostData = {
       title,
       post_tag,
       vote_content,
       body
     };
-
+  
     try {
       const response = await fetch('http://localhost:8080/api/posts/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(PostData),
       });
-
+  
       if (!response.ok) {
         alert('글 작성 성공.')
         throw new Error('글 작성 실패.');
